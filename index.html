@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<!-- Add class="dark" for default dark mode, JS will handle this -->
+<html lang="en" class="scroll-smooth"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudhamsha Sagar - Data Portfolio</title>
+    <!-- 1. Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- 2. Load Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- 3. Tailwind Config for dark mode -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Enable class-based dark mode
+            theme: {
+                extend: {
+                    colors: {
+                        // Professional Cyan/Green Accent
+                        primary: {
+                            light: '#67e8f9', // cyan 300
+                            DEFAULT: '#06b6d4', // cyan 500
+                            dark: '#0891b2', // cyan 600
+                        },
+                        // Dark theme colors (Pro)
+                        dark: {
+                            bg: '#0a192f', // Deep Navy
+                            card: '#112240', // Lighter Navy
+                            text: '#ccd6f6', // Lightest text
+                            subtle: '#8892b0', // Lighter text
+                        },
+                        // Light theme colors (Pro)
+                        light: {
+                            bg: '#f8f9fa', // Very light gray
+                            card: '#ffffff', // white
+                            text: '#212529', // Dark text
+                            subtle: '#495057', // Lighter text
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'left center',
+                            },
+                            '50%': {
+                                'background-size': '200% 200%',
+                                'background-position': 'right center',
+                            },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Animated Gradient Background */
+        .animated-gradient-bg {
+            background: linear-gradient(-45deg, #0a192f, #112240, #0a192f, #1e3a5f);
+            background-size: 400% 400%;
+            animation: gradient-x 20s ease infinite;
+            transition: background 0.3s ease;
+        }
+
+        body.light .animated-gradient-bg {
+            background: linear-gradient(-45deg, #f8f9fa, #e9ecef, #f8f9fa, #dee2e6);
+            background-size: 400% 400%;
+            animation: gradient-x 20s ease infinite;
+        }
+
+
+        /* Custom cursor element */
+        #custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #06b6d4; /* Accent color */
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease-out;
+            z-index: 9999;
+        }
+        
+        #custom-cursor.hover {
+            width: 40px;
+            height: 40px;
+            opacity: 0.5;
+        }
+
+        #custom-cursor-dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background-color: #06b6d4; /* Accent color */
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Style for the "funny quote" popup */
+        #quote-popup {
+            position: fixed;
+            display: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            z-index: 10000;
+            pointer-events: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            /* Theming via tailwind */
+        }
+
+        /* Modal styles */
+        #api-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        #api-modal-overlay.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        #api-modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-radius: 0.5rem;
+            z-index: 101;
+            opacity: 0;
+            transform: translate(-50%, -45%);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+        #api-modal-overlay.visible #api-modal-content {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+            pointer-events: all;
+        }
+        #api-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom-width: 1px;
+        }
+        #api-modal-body {
+            padding: 1.5rem;
+            line-height: 1.75;
+        }
+
+        /* CSS Loader */
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 5px solid;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            position: relative;
+            animation: pulse 1s linear infinite;
+            /* Themed by JS */
+        }
+        .loader::after {
+            content: '';
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            border: 5px solid;
+            border-radius: 50%;
+            display: inline-block;
+            box-sizing: border-box;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulse 1s linear infinite;
+            animation-delay: 0.5s;
+        }
+        @keyframes pulse {
+            0% {
+                transform: scale(0.6);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        body.light ::-webkit-scrollbar-track { background: #f8f9fa; }
+        body.light ::-webkit-scrollbar-thumb { background-color: #0891b2; border: 2px solid #f8f9fa; border-radius: 20px; }
+        body.dark ::-webkit-scrollbar-track { background: #0a192f; }
+        body.dark ::-webkit-scrollbar-thumb { background-color: #06b6d4; border: 2px solid #0a192f; border-radius: 20px; }
+        
+        /* Scroll reveal animation */
+        .reveal-section {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .reveal-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Education Roadmap Styles */
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -31px; /* (8 * 4px) - (size / 2) = 32px - 1px = 31px */
+            top: 0.5rem; /* Adjust to align with text */
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #06b6d4; /* primary */
+            border: 2px solid #06b6d4; /* primary */
+        }
+
+        body.light .timeline-item::before {
+            background-color: #f8f9fa; /* light-bg */
+        }
+
+        body.dark .timeline-item::before {
+            background-color: #0a192f; /* dark-bg */
+        }
+
+
+    </style>
+</head>
+<!-- Body classes will be toggled by JS -->
+<body class="bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text leading-relaxed">
+
+    <!-- Animated Gradient Background -->
+    <div class="animated-gradient-bg fixed top-0 left-0 w-full h-full z-[-1]"></div>
+
+    <!-- Custom Cursor -->
+    <div id="custom-cursor">
+        <div id="custom-cursor-dot"></div>
+    </div>
+
+    <!-- Funny Quote Popup -->
+    <div id="quote-popup" class="bg-light-card dark:bg-dark-card shadow-lg dark:shadow-2xl text-light-text dark:text-dark-text border border-primary"></div>
+
+    <!-- Sticky Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-40 bg-light-bg/80 dark:bg-dark-bg/80 backdrop-blur-md shadow-md transition-colors duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo/Name -->
+                <div class="flex-shrink-0">
+                    <a href="#" class="text-2xl font-bold text-primary-dark dark:text-primary-light">SS</a>
+                </div>
+                <!-- Nav Links -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#about" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300">About</a>
+                    <a href="#experience" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300">Experience</a>
+                    <a href="#education" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300">Education</a>
+                    <a href="#projects" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300">Projects</a>
+                    <a href="#contact" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300">Contact</a>
+                    
+                    <!-- Theme Toggle Button -->
+                    <button id="theme-toggle" class="p-2 rounded-full text-light-subtle dark:text-dark-subtle hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <svg id="theme-icon-dark" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                        <svg id="theme-icon-light" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M12 12a5 5 0 100-10 5 5 0 000 10z"></path></svg>
+                    </button>
+                </div>
+                <!-- Mobile Menu Button (optional, not implemented) -->
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Main Scrollable Content -->
+    <div class="relative min-h-screen p-4 md:p-8">
+        <div class="max-w-4xl mx-auto space-y-24 md:space-y-32">
+
+            <!-- Hero Section -->
+            <section class="min-h-[80vh] flex flex-col justify-center pt-24 pb-12">
+                <p class="text-lg text-primary mb-4 font-medium">Hi, my name is</p>
+                <h1 class="text-5xl md:text-7xl font-bold text-light-text dark:text-white mb-4">
+                    Sudhamsha Sagar.
+                </h1>
+                <h2 class="text-4xl md:text-6xl font-bold text-light-subtle dark:text-dark-subtle mb-8">
+                    I build insights from data.
+                </h2>
+                <p class="max-w-xl text-lg text-light-text dark:text-dark-text mb-6">
+                    I'm a Data Analyst specializing in Power BI, SQL, and Python. I turn complex datasets into clear, actionable insights and dynamic dashboards.
+                </p>
+                <p class="max-w-xl text-lg text-primary-dark dark:text-primary-light italic font-medium mb-10">
+                    "Your company’s growth equation just found its missing variable — me"
+                </p>
+                <div>
+                    <a href="#projects" class="px-6 py-3 border-2 border-primary text-primary font-medium rounded-md hover:bg-primary/10 transition-colors duration-300">
+                        Check out my work!
+                    </a>
+                </div>
+            </section>
+
+            <!-- About Me Section -->
+            <section id="about" class="reveal-section data-section cursor-pointer">
+                <h2 class="text-3xl font-bold text-light-text dark:text-white mb-6 flex items-center">
+                    <span class="text-primary text-2xl font-medium mr-3">01.</span> About Me
+                </h2>
+                <div class="space-y-4 text-lg text-light-text dark:text-dark-text" id="about-me-text">
+                    <p>
+                        Results-oriented Data Operations Analyst with 3 years of experience in IT and EdTech sectors, specializing in data-driven decision making and visualization.
+                    </p>
+                    <p>
+                        I'm skilled in creating dynamic Power BI dashboards, conducting in-depth analytics using SQL and Python, and providing actionable insights to cross-functional teams. Proficient in data storytelling, dashboard design, and collaborating with stakeholders to meet deadlines.
+                    </p>
+                    <p>Here are a few technologies I've been working with recently:</p>
+                </div>
+                <ul class="grid grid-cols-2 gap-2 mt-6 max-w-md text-light-subtle dark:text-dark-subtle">
+                    <li class="flex items-center"><span class="text-primary mr-2">›</span>Python</li>
+                    <li class="flex items-center"><span class="text-primary mr-2">›</span>SQL</li>
+                    <li class="flex items-center"><span class="text-primary mr-2">›</span>Power BI</li>
+                    <!-- <li class="flex items-center"><span class="text-primary mr-2">›</span>Tableau</li> -->
+                    <li class="flex items-center"><span class="text-primary mr-2">›</span>Excel</li>
+                    <li class="flex items-center"><span class="text-primary mr-2">›</span>Machine Learning</li>
+                </ul>
+            </section>
+
+            <!-- Experience Section -->
+            <section id="experience" class="reveal-section data-section cursor-pointer">
+                <h2 class="text-3xl font-bold text-light-text dark:text-white mb-6 flex items-center">
+                    <span class="text-primary text-2xl font-medium mr-3">02.</span> Experience
+                </h2>
+                <div class="space-y-8">
+                    <!-- Job 1 -->
+                    <div class="group p-6 rounded-md bg-light-card/50 dark:bg-dark-card/50 hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-xl font-semibold text-light-text dark:text-white">Candidate Success Executive</h3>
+                        <p class="text-primary-dark dark:text-primary-light mb-2">Guvi Geeks Pvt Ltd (Dec '23 - Mar '25)</p>
+                        <ul class="list-disc list-inside text-light-text dark:text-dark-text mt-2 space-y-1">
+                            <li>Created and maintained interactive Power BI dashboards for operational and learner analytics.</li>
+                            <li>Used Excel (VLOOKUP, Pivot Tables, Forecasting) for ad-hoc reporting and trend analysis.</li>
+                            <li>Orchestrated cross-functional teams to gather data requirements, enhancing data accuracy by 15% using Python & Tableau.</li>
+                        </ul>
+                    </div>
+                    <!-- Job 2 -->
+                    <div class="group p-6 rounded-md bg-light-card/50 dark:bg-dark-card/50 hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-xl font-semibold text-light-text dark:text-white">Customer Success Associate</h3>
+                        <p class="text-primary-dark dark:text-primary-light mb-2">Codingal (May '23 - Aug '23)</p>
+                        <ul class="list-disc list-inside text-light-text dark:text-dark-text mt-2 space-y-1">
+                            <li>Attained a record-high 90% Class Completion Percentage (CCP).</li>
+                            <li>Managed student engagement data with CRM & tracking tools, increasing student retention by 20%.</li>
+                        </ul>
+                    </div>
+                    <!-- Job 3 -->
+                    <div class="group p-6 rounded-md bg-light-card/50 dark:bg-dark-card/50 hover:shadow-xl transition-shadow duration-300">
+                        <h3 class="text-xl font-semibold text-light-text dark:text-white">Operations Executive</h3>
+                        <p class="text-primary-dark dark:text-primary-light mb-2">Turito India Pvt Ltd (May '22 - Feb '23)</p>
+                        <ul class="list-disc list-inside text-light-text dark:text-dark-text mt-2 space-y-1">
+                            <li>Reduced tutor no-show rates from over 60% to just 2% in one month.</li>
+                            <li>Designed data models in Excel to forecast inventory needs with 95% accuracy.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education Section -->
+            <section id="education" class="reveal-section data-section cursor-pointer">
+                <h2 class="text-3xl font-bold text-light-text dark:text-white mb-6 flex items-center">
+                    <span class="text-primary text-2xl font-medium mr-3">03.</span> Education
+                </h2>
+                <div class="relative pl-6 border-l-2 border-primary-dark dark:border-primary-light space-y-12">
+                    <!-- Item 1 -->
+                    <div class="timeline-item relative pl-8">
+                        <p class="text-primary-dark dark:text-primary-light text-sm font-medium mb-1">Feb '24 - Feb '25</p>
+                        <h3 class="text-xl font-semibold text-light-text dark:text-white">Post Graduation Certification in Data Science</h3>
+                        <p class="text-light-subtle dark:text-dark-subtle">IIIT Bangalore & upGrad</p>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="timeline-item relative pl-8">
+                        <p class="text-primary-dark dark:text-primary-light text-sm font-medium mb-1">Jun '18 - Jun '21</p>
+                        <h3 class="text-xl font-semibold text-light-text dark:text-white">B. Sc. in Computer Science</h3>
+                        <p class="text-light-subtle dark:text-dark-subtle">University of Mangalore</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="reveal-section data-section cursor-pointer">
+                <h2 class="text-3xl font-bold text-light-text dark:text-white mb-6 flex items-center">
+                    <span class="text-primary text-2xl font-medium mr-3">04.</span> Key Projects
+                </h2>
+                <div class="space-y-8">
+                    <!-- Project 1 -->
+                    <div class="p-6 rounded-md bg-light-card/50 dark:bg-dark-card/50 hover:shadow-xl transition-shadow duration-300" 
+                         data-project-description="Project: Global Supply Chain Analytics Dashboard. Tech: Power BI, DAX. Description: Designed advanced DAX measures for KPIs like Forecast Accuracy (MAPE), Inventory Turnover, and Capacity Utilization. Created dynamic visualizations (trend lines, maps, heatmaps, Sankey diagrams) to uncover demand-supply gaps. Integrated slicers for cross-filtering and scenario analysis.">
+                        <h3 class="text-xl font-semibold text-light-text dark:text-white">Global Supply Chain Analytics Dashboard</h3>
+                        <p class="text-primary-dark dark:text-primary-light text-sm mb-2">Power BI, DAX</p>
+                        <ul class="list-disc list-inside text-light-text dark:text-dark-text mt-2 space-y-1">
+                            <li>Designed advanced DAX measures for KPIs like Forecast Accuracy (MAPE), Inventory Turnover, and Capacity Utilization.</li>
+                            <li>Created dynamic visualizations (trend lines, maps, heatmaps, Sankey diagrams) to uncover demand-supply gaps.</li>
+                            <li>Integrated slicers for cross-filtering and scenario analysis.</li>
+                        </ul>
+                        <button class="analyze-impact-btn mt-4 px-4 py-2 border border-primary text-primary text-sm font-medium rounded-md hover:bg-primary/10 transition-colors duration-300">
+                            ✨ Analyze Impact
+                        </button>
+                    </div>
+                    <!-- Project 2 -->
+                    <div class="p-6 rounded-md bg-light-card/50 dark:bg-dark-card/50 hover:shadow-xl transition-shadow duration-300"
+                         data-project-description="Project: Telecom Churn Analysis. Tech: SQL, Power BI, DAX, Data Visualization. Description: Queried and cleaned 7K+ records of telecom customer data using SQL. Performed customer churn analysis by contract, demographics, and service usage. Found customers on month-to-month + fiber optic + no support churned at >50%.">
+                        <h3 class="text-xl font-semibold text-light-text dark:text-white">Telecom Churn Analysis</h3>
+                        <p class="text-primary-dark dark:text-primary-light text-sm mb-2">SQL, Power BI, DAX, Data Visualization</p>
+                        <ul class="list-disc list-inside text-light-text dark:text-dark-text mt-2 space-y-1">
+                            <li>Queried and cleaned 7K+ records of telecom customer data using SQL.</li>
+                            <li>Performed customer churn analysis by contract, demographics, and service usage.</li>
+                            <li>Found customers on month-to-month + fiber optic + no support churned at >50%.</li>
+                        </ul>
+                        <button class="analyze-impact-btn mt-4 px-4 py-2 border border-primary text-primary text-sm font-medium rounded-md hover:bg-primary/10 transition-colors duration-300">
+                            ✨ Analyze Impact
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gemini Recruiter Tools Section -->
+            <section id="recruiter-tools" class="reveal-section data-section cursor-pointer text-center">
+                <h2 class="text-3xl font-bold text-light-text dark:text-white mb-4 flex items-center justify-center">
+                    <span class="text-primary text-2xl font-medium mr-3">05.</span> Recruiter Tools
+                </h2>
+                <p class="text-lg text-light-text dark:text-dark-text max-w-lg mx-auto mb-8">
+                    Hiring for a data role? Let's break the ice. Click the button below to generate a unique interview question based on my profile.
+                </p>
+                <button id="generate-question-btn" class="px-6 py-3 border-2 border-primary text-primary font-medium rounded-md hover:bg-primary/10 transition-colors duration-300">
+                    ✨ Generate Interview Question
+                </button>
+                <div id="question-result" class="mt-8 text-left max-w-lg mx-auto p-6 rounded-md bg-light-card/50 dark:bg-dark-card/50 min-h-[50px] flex items-center justify-center">
+                    <!-- Question will be injected here -->
+                    <span class="text-light-subtle dark:text-dark-subtle italic">Interview question will be shown here...</span>
+                </div>
+            </section>
+            
+            <!-- Contact Section -->
+            <section id="contact" class="reveal-section data-section cursor-pointer text-center pb-24">
+                <h2 class="text-3xl font-bold text-light-text dark:text-white mb-4 flex items-center justify-center">
+                    <span class="text-primary text-2xl font-medium mr-3">06.</span> Get In Touch
+                </h2>
+                <p class="text-lg text-light-text dark:text-dark-text max-w-lg mx-auto mb-8">
+                    My inbox is always open. Whether you have a question or just want to say hi, I'll get back to you!
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
+                    <a href="mailto:sudhamshasagar@gmail.com" class="px-6 py-3 border-2 border-primary text-primary font-medium rounded-md hover:bg-primary/10 transition-colors duration-300">
+                        Say Hello (Email)
+                    </a>
+                    <!-- Social Links -->
+                    <div class="flex items-center space-x-6">
+                        <a href="https://wa.me/917975073574" target="_blank" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300 flex items-center" title="WhatsApp">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 12c0 1.76.46 3.42 1.29 4.86L2 22l5.26-1.42c1.37.79 2.94 1.21 4.58 1.21h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2m.01 1.64c4.56 0 8.27 3.71 8.27 8.27 0 4.56-3.71 8.27-8.27 8.27h-.01c-1.48 0-2.9-.39-4.14-1.11l-.3-.18-3.07.83.84-3.01-.2-.31C3.8 15.01 3.4 13.54 3.4 12c0-4.56 3.71-8.27 8.27-8.27M8.03 7.02c-.12-.26-.26-.27-.39-.27-.11 0-.24 0-.36.01-.12.01-.3.06-.46.3s-.6.58-.6.58c0 .87.21 1.71.6 2.51.39.8.81 1.48 1.32 2.06.51.58 1.15 1.15 1.84 1.62l.18.12c.76.5 1.43.74 2.19.95.76.21 1.48.16 2.08-.05.6-.21 1.02-.45 1.44-1.29.42-.84.42-1.55 0-1.55s-.09-.08-.18-.13c-.09-.05-.21-.08-.45-.18-.24-.1-.56-.25-1.11-.51-.55-.26-1.02-.41-1.17-.41-.15 0-.3.03-.42.18-.12.15-.41.51-.51.61s-.2.15-.36.08c-.16-.07-.69-.25-1.32-.82-.63-.57-1.04-1.27-1.14-1.48s-.1-.33-.01-.46c.09-.13.2-.21.3-.29s.15-.12.21-.08c.07.03.15-.02.26.03.11.05.7.33.8.38.1.05.18.08.26.08.08 0 .15-.02.21-.13.06-.11.06-.6 0-1.09-.06-.49-.12-.93-.18-1.02s-.1-.13-.21-.13c-.11 0-.24.03-.36.08Z"/></svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/your-linkedin-url" target="_blank" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300 flex items-center" title="LinkedIn">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.784-1.75-1.75s.784-1.75 1.75-1.75 1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd"/></svg>
+                        </a>
+                        <a href="https://github.com/your-github-url" target="_blank" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300 flex items-center" title="GitHub">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" clip-rule="evenodd"/></svg>
+                        </a>
+                        <a href="https://www.kaggle.com/your-username" target="_blank" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300 flex items-center" title="Kaggle">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.062 1.48C12.002 1.48 11.942 1.489 11.882 1.498L5.783 2.812C5.674 2.836 5.624 2.945 5.647 3.054L8.272 14.868L2.529 20.61C2.433 20.706 2.433 20.858 2.529 20.954L3.046 21.47C3.142 21.567 3.294 21.567 3.39 21.47L9.132 15.728L11.59 22.425C11.621 22.522 11.725 22.587 11.83 22.578C11.886 22.573 11.94 22.56 11.989 22.536L21.379 17.103C21.475 17.043 21.52 16.93 21.488 16.82L15.111 2.373C15.068 2.253 14.95 2.162 14.82 2.14L12.222 1.507C12.167 1.493 12.115 1.48 12.062 1.48ZM14.111 4.204L19.29 15.862L12.35 19.82L9.842 6.096L14.111 4.204Z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- API Modal -->
+    <div id="api-modal-overlay">
+        <div id="api-modal-content" class="bg-light-card dark:bg-dark-card text-light-text dark:text-dark-text">
+            <div id="api-modal-header" class="border-light-subtle/20 dark:border-dark-subtle/20">
+                <h3 id="api-modal-title" class="text-xl font-semibold text-light-text dark:text-white"></h3>
+                <button id="api-modal-close" class="text-light-subtle dark:text-dark-subtle hover:text-primary dark:hover:text-primary transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div id="api-modal-body" class="flex justify-center items-center min-h-[200px]">
+                <!-- Content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // --- 0. Gemini API Configuration ---
+        const apiKey = ""; // Keep this empty, it will be populated by the environment
+        const apiModel = "gemini-2.5-flash-preview-09-2025";
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${apiModel}:generateContent?key=${apiKey}`;
+
+        /**
+         * A simple sleep helper
+         */
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        /**
+         * Fetches with exponential backoff
+         * @param {string} url - The API endpoint
+         * @param {object} options - Fetch options (method, headers, body)
+         * @param {number} maxRetries - Maximum number of retries
+         * @returns {Promise<object>} - The JSON response
+         */
+        async function fetchWithBackoff(url, options, maxRetries = 5) {
+            let attempt = 0;
+            let delay = 1000; // Start with 1 second
+
+            while (attempt < maxRetries) {
+                try {
+                    const response = await fetch(url, options);
+
+                    if (response.ok) {
+                        return await response.json();
+                    }
+
+                    if (response.status === 429 || response.status >= 500) {
+                        // Throttling or server error, wait and retry
+                        // console.warn(`API request failed with status ${response.status}. Retrying in ${delay}ms...`);
+                        await sleep(delay);
+                        delay *= 2; // Exponential backoff
+                        attempt++;
+                    } else {
+                        // Other client-side error (e.g., 400), don't retry
+                        // console.error(`API request failed with status ${response.status}.`);
+                        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+                    }
+                } catch (error) {
+                    if (attempt + 1 >= maxRetries) {
+                        // console.error("Max retries reached. Fetch failed.", error);
+                        throw error;
+                    }
+                    // console.warn(`Fetch error: ${error.message}. Retrying in ${delay}ms...`);
+                    await sleep(delay);
+                    delay *= 2;
+                    attempt++;
+                }
+            }
+            throw new Error("API request failed after maximum retries.");
+        }
+
+        /**
+         * Calls the Gemini API
+         * @param {string} systemPrompt - The system instruction
+         * @param {string} userPrompt - The user's prompt text
+         * @returns {Promise<string>} - The generated text content
+         */
+        async function callGeminiAPI(systemPrompt, userPrompt) {
+            const payload = {
+                contents: [{ parts: [{ text: userPrompt }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+            };
+
+            const options = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            };
+
+            try {
+                const result = await fetchWithBackoff(apiUrl, options);
+                if (result.candidates && result.candidates.length > 0) {
+                    return result.candidates[0].content.parts[0].text;
+                } else {
+                    // console.error("No candidates returned from API.", result);
+                    return "Sorry, I couldn't generate a response. The API returned no content.";
+                }
+            } catch (error) {
+                // console.error("Error calling Gemini API:", error);
+                return "An error occurred while contacting the AI. Please try again later.";
+            }
+        }
+
+
+        // --- 1. Custom Cursor Logic ---
+        const cursor = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        
+        // Add hover effect for links and buttons
+        document.querySelectorAll('a, button, .data-section').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+        });
+
+
+        // --- 2. Funny Quote Popup Logic ---
+       const quotes = [
+        "Hmm... looks like an outlier just got clicked!",
+        "Data cleaning in progress... mentally.",
+        "Missing values? Not again!",
+        "Ah yes, multicollinearity — every analyst’s favorite nightmare.",
+        "That click wasn’t statistically significant.",
+        "Feature engineering level: Jedi.",
+        "My p-value just fainted.",
+        "Careful... overfitting detected!",
+        "Somewhere, a data scientist just added another column.",
+        "That click has been normalized and standardized.",
+        "Data visualization or data illusion?",
+        "Another click, another NaN.",
+        "Correlation ≠ Causation — but thanks for trying!",
+        "Model accuracy dropped faster than my coffee level.",
+        "Let’s pivot... literally.",
+        "I swear it worked in the training set!",
+        "This dataset needs therapy, not preprocessing.",
+        "When in doubt, add more data.",
+        "404: Insight not found.",
+        "Click registered. Confidence interval updated."
+      ];
+
+        const popup = document.getElementById('quote-popup');
+        let popupTimer;
+
+        document.addEventListener('click', (e) => {
+            // Check if the click is on an interactive element
+            if (e.target.closest('a, button, #api-modal-content, nav')) {
+                return; // Don't show popup for links, buttons, modal, or nav
+            }
+                
+            if (popupTimer) clearTimeout(popupTimer);
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            popup.textContent = randomQuote;
+            
+            // Position popup near cursor
+            let x = e.clientX + 15;
+            let y = e.clientY - 15;
+            
+            // Prevent going off-screen
+            if (x + popup.offsetWidth + 20 > window.innerWidth) {
+                x = e.clientX - popup.offsetWidth - 15;
+            }
+            if (y < 20) {
+                y = e.clientY + 30;
+            }
+            
+            popup.style.left = x + 'px';
+            popup.style.top = y + 'px';
+            
+            popup.style.display = 'block';
+            void popup.offsetWidth; 
+            popup.style.opacity = '1';
+            popup.style.transform = 'translateY(0)';
+
+            popupTimer = setTimeout(() => {
+                popup.style.opacity = '0';
+                popup.style.transform = 'translateY(10px)';
+                setTimeout(() => { popup.style.display = 'none'; }, 300); 
+            }, 2500);
+        });
+
+        // --- 3. Light/Dark Mode Toggle Logic ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-icon-dark');
+        const lightIcon = document.getElementById('theme-icon-light');
+        let isDarkMode = false; // Will be set by updateTheme
+
+        function updateTheme(isDark) {
+            isDarkMode = isDark; // Store current state
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                document.body.classList.add('dark');
+                document.body.classList.remove('light');
+                lightIcon.classList.remove('hidden');
+                darkIcon.classList.add('hidden');
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.body.classList.remove('dark');
+                document.body.classList.add('light');
+                lightIcon.classList.add('hidden');
+                darkIcon.classList.remove('hidden');
+            }
+        }
+
+        let initialIsDarkMode = localStorage.theme === 'dark' || 
+                         (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+        updateTheme(initialIsDarkMode);
+
+        themeToggleBtn.addEventListener('click', (e) => {
+            // e.stopPropagation(); // No longer needed, handled by document listener
+            let newIsDarkMode = !isDarkMode; // Get the new state
+            localStorage.theme = newIsDarkMode ? 'dark' : 'light';
+            updateTheme(newIsDarkMode);
+        });
+        
+        // --- 4. Scroll Reveal Animation Logic ---
+        const sections = document.querySelectorAll('.reveal-section');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // Optional: stop observing after it's visible
+                    // observer.unobserve(entry.target); 
+                }
+            });
+        }, {
+            threshold: 0.1 // Trigger when 10% of the element is visible
+        });
+        
+        sections.forEach(section => {
+            observer.observe(section);
+        });
+
+        // --- 5. API Modal Logic ---
+        const modalOverlay = document.getElementById('api-modal-overlay');
+        const modalTitle = document.getElementById('api-modal-title');
+        const modalBody = document.getElementById('api-modal-body');
+        const modalCloseBtn = document.getElementById('api-modal-close');
+
+        function getLoaderHTML() {
+            const color = isDarkMode ? '#06b6d4' : '#0891b2'; // primary accent
+            return `<div class="loader" style="border-color: ${color}; border-bottom-color: transparent;"></div>`;
+        }
+
+        function openModal(title, content) {
+            modalTitle.textContent = title;
+            modalBody.innerHTML = content;
+            modalOverlay.classList.add('visible');
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('visible');
+        }
+
+        modalCloseBtn.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+
+        // --- 6. Project Impact Button Listeners ---
+        const projectAnalyzeButtons = document.querySelectorAll('.analyze-impact-btn');
+        projectAnalyzeButtons.forEach(button => {
+            button.addEventListener('click', async (e) => {
+                // e.stopPropagation(); // No longer needed
+                const projectDescription = button.parentElement.dataset.projectDescription;
+                
+                openModal("✨ Analyzing Project Impact...", getLoaderHTML());
+
+                const systemPrompt = "You are a data science hiring manager. Given the following project summary, provide a concise, one-paragraph analysis of its potential business impact and the key technical skills demonstrated. Speak in a professional, encouraging tone.";
+                
+                const aiResponse = await callGeminiAPI(systemPrompt, projectDescription);
+                
+                // Update modal with response
+                openModal("✨ Project Impact Analysis", aiResponse.replace(/\n/g, '<br>'));
+            });
+        });
+
+        // --- 7. Recruiter Tool Button Listener ---
+        const generateQuestionBtn = document.getElementById('generate-question-btn');
+        const questionResultDiv = document.getElementById('question-result');
+        const aboutMeText = document.getElementById('about-me-text').textContent;
+
+        generateQuestionBtn.addEventListener('click', async (e) => {
+            // e.stopPropagation(); // No longer needed
+            
+            questionResultDiv.innerHTML = getLoaderHTML();
+            generateQuestionBtn.disabled = true;
+
+            const systemPrompt = "You are a senior technical recruiter hiring for a Data Analyst/ML Engineer role. Given the candidate's 'About Me' summary, generate one insightful, open-ended technical or behavioral interview question to ask them. The question should be directly relevant to the skills mentioned.";
+            
+            const aiResponse = await callGeminiAPI(systemPrompt, aboutMeText);
+
+            // Display the response
+            questionResultDiv.innerHTML = `<p class="italic text-light-text dark:text-dark-text">${aiResponse}</p>`;
+            generateQuestionBtn.disabled = false;
+        });
+
+    </script>
+</body>
+</html>
+
