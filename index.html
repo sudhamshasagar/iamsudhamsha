@@ -1,814 +1,1312 @@
 <!DOCTYPE html>
-<!-- Add class="dark" for default dark mode, JS will handle this -->
-<html lang="en" class="scroll-smooth"> 
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sudhamsha Sagar - Data Portfolio</title>
-    <!-- 1. Load Tailwind CSS -->
+    <title>Sudhamsha Sagar - Data Analyst Portfolio</title>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- 2. Load Inter font -->
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+    
+    <!-- AOS Scroll Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Google Fonts (Inter) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- 3. Tailwind Config for dark mode -->
-    <script>
-        tailwind.config = {
-            darkMode: 'class', // Enable class-based dark mode
-            theme: {
-                extend: {
-                    colors: {
-                        // Professional Cyan/Green Accent
-                        primary: {
-                            light: '#67e8f9', // cyan 300
-                            DEFAULT: '#06b6d4', // cyan 500
-                            dark: '#0891b2', // cyan 600
-                        },
-                        // Dark theme colors (Pro)
-                        dark: {
-                            bg: '#0a192f', // Deep Navy
-                            card: '#112240', // Lighter Navy
-                            text: '#ccd6f6', // Lightest text
-                            subtle: '#8892b0', // Lighter text
-                        },
-                        // Light theme colors (Pro)
-                        light: {
-                            bg: '#f8f9fa', // Very light gray
-                            card: '#ffffff', // white
-                            text: '#212529', // Dark text
-                            subtle: '#495057', // Lighter text
-                        }
-                    },
-                    fontFamily: {
-                        'sans': ['Inter', 'sans-serif'],
-                    },
-                    animation: {
-                        'gradient-x': 'gradient-x 15s ease infinite',
-                    },
-                    keyframes: {
-                        'gradient-x': {
-                            '0%, 100%': {
-                                'background-size': '200% 200%',
-                                'background-position': 'left center',
-                            },
-                            '50%': {
-                                'background-size': '200% 200%',
-                                'background-position': 'right center',
-                            },
-                        },
-                    },
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display.swap" rel="stylesheet">
 
     <style>
-        /* Custom styles */
+        /* --- Base Styles --- */
         body {
             font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        /* Animated Gradient Background */
-        .animated-gradient-bg {
-            background: linear-gradient(-45deg, #0a192f, #112240, #0a192f, #1e3a5f);
-            background-size: 400% 400%;
-            animation: gradient-x 20s ease infinite;
-            transition: background 0.3s ease;
-        }
-
-        body.light .animated-gradient-bg {
-            background: linear-gradient(-45deg, #f8f9fa, #e9ecef, #f8f9fa, #dee2e6);
-            background-size: 400% 400%;
-            animation: gradient-x 20s ease infinite;
-        }
-
-
-        /* Custom cursor element */
-        #custom-cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 2px solid #06b6d4; /* Accent color */
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: all 0.1s ease-out;
-            z-index: 9999;
+            background-color: #0a0a0a; /* Dark background */
+            color: #e2e8f0; /* slate-200 */
         }
         
-        #custom-cursor.hover {
-            width: 40px;
-            height: 40px;
-            opacity: 0.5;
+        /* --- Animated Glossy Background --- */
+        #animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -10;
+            overflow: hidden;
+            background: #0a0a0a;
         }
 
-        #custom-cursor-dot {
+        #animated-bg::before {
+            content: '';
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background-color: #06b6d4; /* Accent color */
-            border-radius: 50%;
+            width: 800px;
+            height: 800px;
             top: 50%;
             left: 50%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(29, 78, 216, 0.15), rgba(29, 78, 216, 0) 70%);
+            animation: pulse 15s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            transform-origin: center;
+        }
+        
+        #animated-bg::after {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            top: 20%;
+            left: 10%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(147, 51, 234, 0.1), rgba(147, 51, 234, 0) 70%);
+            animation: pulse-reverse 20s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            transform-origin: center;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-40%, -60%) scale(1.8);
+                opacity: 0.7;
+            }
+        }
+        
+        @keyframes pulse-reverse {
+            0%, 100% {
+                transform: translate(0, 0) scale(1.2);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translate(50%, 20%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* --- Custom Cursor --- */
+        .custom-cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #38bdf8; /* sky-500 */
+            border-radius: 50%;
+            position: fixed;
+            z-index: 9999;
+            pointer-events: none;
+            transition: transform 0.1s ease-out;
             transform: translate(-50%, -50%);
         }
-
-        /* Style for the "funny quote" popup */
-        #quote-popup {
+        
+        .custom-cursor-outline {
+            width: 30px;
+            height: 30px;
+            border: 2px solid #38bdf8; /* sky-500 */
+            border-radius: 50%;
             position: fixed;
-            display: none;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-weight: 500;
-            z-index: 10000;
+            z-index: 9999;
             pointer-events: none;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            /* Theming via tailwind */
+            transition: all 0.2s ease-out;
+            transform: translate(-50%, -50%);
+            opacity: 0.7;
         }
 
-        /* Modal styles */
-        #api-modal-overlay {
+        /* Hide default cursor */
+        body, a, button {
+            cursor: none;
+        }
+
+        /* --- Glassmorphism Card --- */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.4); /* slate-900 with alpha */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 1.5rem; /* 24px */
+            border: 1px solid rgba(56, 189, 248, 0.1); /* sky-400 with alpha */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* --- Animations --- */
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .animate-spin-slow {
+            animation: spin 20s linear infinite;
+        }
+        .animate-spin-fast {
+            animation: spin 1s linear infinite;
+        }
+
+        /* --- Custom Scrollbar --- */
+        body::-webkit-scrollbar {
+            width: 12px;
+        }
+        body::-webkit-scrollbar-track {
+            background: #0a0a0a; /* Match body background */
+        }
+        body::-webkit-scrollbar-thumb {
+            background-color: #1e293b; /* slate-800 */
+            border-radius: 20px;
+            border: 3px solid #0a0a0a; /* Match body background */
+        }
+        body::-webkit-scrollbar-thumb:hover {
+            background-color: #38bdf8; /* sky-500 */
+        }
+
+        /* --- Section Container --- */
+        .section {
+            padding-top: 6rem;
+            padding-bottom: 6rem;
+            position: relative;
+        }
+
+        /* --- Section Headers --- */
+        .section-header {
+            font-size: 2.25rem; /* 36px */
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #f1f5f9; /* slate-100 */
+            background: -webkit-linear-gradient(45deg, #e0e7ff, #f1f5f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .section-subheader {
+            font-size: 1.125rem; /* 18px */
+            text-align: center;
+            color: #94a3b8; /* slate-400 */
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 4rem;
+        }
+
+        /* --- Skill Badge --- */
+        .skill-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(56, 189, 248, 0.1);
+            color: #7dd3fc; /* sky-300 */
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            transition: all 0.3s ease;
+        }
+        .skill-badge:hover {
+            background: rgba(56, 189, 248, 0.2);
+            color: #e0f2fe; /* sky-100 */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.1);
+        }
+
+        .skill-badge-sm {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(56, 189, 248, 0.1);
+            color: #7dd3fc;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        /* --- Project Card --- */
+        .project-card {
+            transition: all 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(56, 189, 248, 0.3);
+        }
+        
+        /* --- Testimonial Card --- */
+        .testimonial-card {
+            transition: all 0.3s ease;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* --- Back to Top Button --- */
+        #scrollTopBtn {
+            position: fixed;
+            bottom: -100px; /* Start hidden */
+            right: 2rem;
+            background: #38bdf8; /* sky-500 */
+            color: white;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0.8;
+        }
+        #scrollTopBtn.show {
+            bottom: 2rem;
+            opacity: 1;
+        }
+        #scrollTopBtn:hover {
+            background: #0ea5e9; /* sky-600 */
+            transform: translateY(-4px);
+            opacity: 1;
+        }
+
+        /* --- Gemini Modal Styles --- */
+        .gemini-modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-            z-index: 100;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            z-index: 9998;
+            display: none;
             opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+            padding: 1rem;
         }
-        #api-modal-overlay.visible {
-            opacity: 1;
-            pointer-events: all;
-        }
-        #api-modal-content {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 600px;
-            max-height: 80vh;
-            overflow-y: auto;
-            border-radius: 0.5rem;
-            z-index: 101;
-            opacity: 0;
-            transform: translate(-50%, -45%);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            pointer-events: none;
-        }
-        #api-modal-overlay.visible #api-modal-content {
-            opacity: 1;
-            transform: translate(-50%, -50%);
-            pointer-events: all;
-        }
-        #api-modal-header {
+        .gemini-modal.show {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            border-bottom-width: 1px;
-        }
-        #api-modal-body {
-            padding: 1.5rem;
-            line-height: 1.75;
-        }
-
-        /* CSS Loader */
-        .loader {
-            width: 48px;
-            height: 48px;
-            border: 5px solid;
-            border-radius: 50%;
-            display: inline-block;
-            box-sizing: border-box;
-            position: relative;
-            animation: pulse 1s linear infinite;
-            /* Themed by JS */
-        }
-        .loader::after {
-            content: '';
-            position: absolute;
-            width: 48px;
-            height: 48px;
-            border: 5px solid;
-            border-radius: 50%;
-            display: inline-block;
-            box-sizing: border-box;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            animation: pulse 1s linear infinite;
-            animation-delay: 0.5s;
-        }
-        @keyframes pulse {
-            0% {
-                transform: scale(0.6);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 0;
-            }
-        }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        body.light ::-webkit-scrollbar-track { background: #f8f9fa; }
-        body.light ::-webkit-scrollbar-thumb { background-color: #0891b2; border: 2px solid #f8f9fa; border-radius: 20px; }
-        body.dark ::-webkit-scrollbar-track { background: #0a192f; }
-        body.dark ::-webkit-scrollbar-thumb { background-color: #06b6d4; border: 2px solid #0a192f; border-radius: 20px; }
-        
-        /* Scroll reveal animation */
-        .reveal-section {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        
-        .reveal-section.visible {
             opacity: 1;
-            transform: translateY(0);
         }
-
-        /* Education Roadmap Styles */
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -31px; /* (8 * 4px) - (size / 2) = 32px - 1px = 31px */
-            top: 0.5rem; /* Adjust to align with text */
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: #06b6d4; /* primary */
-            border: 2px solid #06b6d4; /* primary */
+        .gemini-modal-content {
+            width: 100%;
+            max-width: 600px;
+            margin: auto;
+            max-height: 90vh;
+            overflow-y: auto;
         }
-
-        body.light .timeline-item::before {
-            background-color: #f8f9fa; /* light-bg */
+        /* Simple scrollbar for modal */
+        .gemini-modal-content::-webkit-scrollbar {
+            width: 12px;
         }
-
-        body.dark .timeline-item::before {
-            background-color: #0a192f; /* dark-bg */
+        .gemini-modal-content::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.4); /* slate-900 with alpha */
         }
-
-
+        .gemini-modal-content::-webkit-scrollbar-thumb {
+            background-color: #38bdf8; /* sky-500 */
+            border-radius: 20px;
+            border: 3px solid rgba(15, 23, 42, 0.4); /* Match track */
+        }
+        .gemini-modal-content::-webkit-scrollbar-thumb:hover {
+            background-color: #7dd3fc; /* sky-300 */
+        }
     </style>
 </head>
-<!-- Body classes will be toggled by JS -->
-<body class="bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text leading-relaxed">
-
-    <!-- Animated Gradient Background -->
-    <div class="animated-gradient-bg fixed top-0 left-0 w-full h-full z-[-1]"></div>
+<body class="relative">
 
     <!-- Custom Cursor -->
-    <div id="custom-cursor">
-        <div id="custom-cursor-dot"></div>
-    </div>
+    <div class="custom-cursor-dot"></div>
+    <div class="custom-cursor-outline"></div>
 
-    <!-- Funny Quote Popup -->
-    <div id="quote-popup" class="bg-light-card dark:bg-dark-card shadow-lg dark:shadow-2xl text-light-text dark:text-dark-text border border-primary"></div>
+    <!-- Animated Background -->
+    <div id="animated-bg"></div>
 
-    <!-- Sticky Navbar -->
-    <nav class="fixed top-0 left-0 w-full z-40 bg-light-bg/80 dark:bg-dark-bg/80 backdrop-blur-md shadow-md transition-colors duration-300">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo/Name -->
-                <div class="flex-shrink-0">
-                    <a href="#" class="text-2xl font-bold text-primary-dark dark:text-primary-light">SS</a>
-                </div>
-                <!-- Nav Links -->
-                <div class="hidden md:flex items-center space-x-6">
-                    <a href="#about" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300">About</a>
-                    <a href="#experience" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300">Experience</a>
-                    <a href="#education" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300">Education</a>
-                    <a href="#projects" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300">Projects</a>
-                    <a href="#contact" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300">Contact</a>
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#home" class="text-2xl font-bold text-white">
+                Sudhamsha Sagar<span class="text-sky-500">.</span>
+            </a>
+            
+            <!-- Nav Links -->
+            <div class="hidden md:flex space-x-8">
+                <a href="#home" class="text-slate-300 hover:text-sky-500 transition duration-300">Home</a>
+                <a href="#about" class="text-slate-300 hover:text-sky-500 transition duration-300">About</a>
+                <a href="#projects" class="text-slate-300 hover:text-sky-500 transition duration-300">Projects</a>
+                <a href="#testimonials" class="text-slate-300 hover:text-sky-500 transition duration-300">Testimonials</a>
+                <a href="#contact" class="text-slate-300 hover:text-sky-500 transition duration-300">Contact</a>
+            </div>
+            
+            <!-- Contact Button -->
+            <a href="#contact" class="hidden md:block bg-sky-500 hover:bg-sky-600 text-white font-medium py-2 px-5 rounded-full transition duration-300 shadow-lg shadow-sky-500/30">
+                Hire Me
+            </a>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-white">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </nav>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-900/80 backdrop-blur-lg">
+            <a href="#home" class="block text-slate-300 hover:text-sky-500 transition duration-300 py-3 px-6 text-center">Home</a>
+            <a href="#about" class="block text-slate-300 hover:text-sky-500 transition duration-300 py-3 px-6 text-center">About</a>
+            <a href="#projects" class="block text-slate-300 hover:text-sky-500 transition duration-300 py-3 px-6 text-center">Projects</a>
+            <a href="#testimonials" class="block text-slate-300 hover:text-sky-500 transition duration-300 py-3 px-6 text-center">Testimonials</a>
+            <a href="#contact" class="block text-slate-300 hover:text-sky-500 transition duration-300 py-3 px-6 text-center">Contact</a>
+            <div class="p-4">
+                <a href="#contact" class="block text-center w-full bg-sky-500 hover:bg-sky-600 text-white font-medium py-3 px-5 rounded-full transition duration-300 shadow-lg shadow-sky-500/30">
+                    Hire Me
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen flex items-center justify-center text-center pt-20 relative overflow-hidden">
+            <div class="container mx-auto px-6 z-10">
+                <div data-aos="fade-up">
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-6 leading-tight">
+                        Hi, I'm Sudhamsha Sagar
+                    </h1>
+                    <h2 class="text-2xl md:text-3xl font-medium text-sky-400 mb-8">
+                        I'm a <span id="typed-role" class="font-bold"></span>
+                    </h2>
+                    <p class="text-lg text-slate-300 max-w-2xl mx-auto mb-10">
+                        A results-oriented Data Analyst with 3 years of experience, turning complex data into clear, actionable insights.
+                    </p>
                     
-                    <!-- Theme Toggle Button -->
-                    <button id="theme-toggle" class="p-2 rounded-full text-light-subtle dark:text-dark-subtle hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                        <svg id="theme-icon-dark" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                        <svg id="theme-icon-light" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M12 12a5 5 0 100-10 5 5 0 000 10z"></path></svg>
+                    <!-- Social Links -->
+                    <div class="flex justify-center md:justify-center space-x-6">
+                        <a href="https://www.linkedin.com/in/sudhamsha-sagar/" target="_blank" class="text-slate-400 hover:text-sky-500 transition duration-300">
+                            <i data-lucide="linkedin" class="w-7 h-7"></i>
+                        </a>
+                        <a href="https://github.com/sudhamshasagar" target="_blank" class="text-slate-400 hover:text-sky-500 transition duration-300">
+                            <i data-lucide="github" class="w-7 h-7"></i>
+                        </a>
+                        <!-- User: Add your Kaggle link in the href="#" -->
+                        <a href="#" target="_blank" class="text-slate-400 hover:text-sky-500 transition duration-300">
+                            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-7 h-7"><title>Kaggle</title><path d="M18.841 24H15.15L9.6 15.223 5.312 24H1.621l6.78-10.957L1.16 0h3.69l4.312 8.81L13.568 0h3.69l-7.23 11.043z"/></svg>
+                        </a>
+                        <a href="https://wa.me/917975073574" target="_blank" class="text-slate-400 hover:text-sky-500 transition duration-300">
+                            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-7 h-7"><title>WhatsApp</title><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52s-.67-.165-.917-.223c-.247-.057-.52-.057-.767-.057s-.71.104-1.07.497c-.36.393-1.366 1.331-1.366 3.246 0 1.915 1.39 3.768 1.564 4.015.173.247 2.71 4.136 6.572 5.79.913.39 1.636.626 2.199.8.694.213 1.316.188 1.817.113.571-.085 1.758-.715 2.006-1.413.248-.698.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898s2.898 4.347 2.898 6.988c0 5.45-4.436 9.884-9.889 9.884m8.413-18.297A11.815 11.815 0 0012.05.011 11.817 11.817 0 00.012 12.05c0 3.901 1.936 7.404 4.968 9.615L.012 24l2.404-2.37C4.78 23.13 7.343 24 10.02 24c.002 0 .004 0 .006 0h.003c6.538 0 11.84-5.302 11.84-11.84 0-3.14-1.228-6.086-3.415-8.272z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Scroll Down Indicator -->
+            <a href="#about" class="absolute bottom-10 left-1/2 -translate-x-1/2 z-10" data-aos="fade-up" data-aos-delay="500" data-aos-offset="0">
+                <div class="w-6 h-10 border-2 border-slate-500 rounded-full flex justify-center items-start p-1">
+                    <span class="w-1 h-2 bg-slate-500 rounded-full animate-bounce"></span>
+                </div>
+            </a>
+        </section>
+
+        <!-- About Me Section -->
+        <section id="about" class="section bg-slate-900/40">
+            <div class="container mx-auto px-6">
+                <h2 class="section-header" data-aos="fade-up">About Me</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <!-- Image Column -->
+                        <div class="w-full" data-aos="fade-right" data-aos-delay="100">
+                          <div id="about-image-container" 
+                               class="glass-card aspect-square rounded-3xl w-full max-w-md mx-auto flex items-center justify-center relative overflow-hidden">
+                            
+                            <!-- Static Image -->
+                            <img 
+                              id="about-image" 
+                              src="sudhamsha.jpg"  <!-- 🔹 Replace this with your actual image path -->
+                              alt="Sudhamsha Sagar - Data Analyst" 
+                              class="absolute inset-0 w-full h-full object-cover rounded-3xl opacity-100 transition-opacity duration-1000" />
+                            
+                          </div>
+                        </div>
+
+
+                    <!-- Text Column -->
+                    <div data-aos="fade-left" data-aos-delay="200">
+                        <h3 class="text-3xl font-bold text-white mb-6">Who I Am</h3>
+                        <p class="text-slate-300 text-lg mb-6 leading-relaxed">
+                            I'm a Data Operations Analyst with a passion for uncovering the stories hidden within data. With 3 years of experience in IT and EdTech, I specialize in creating dynamic Power BI dashboards, writing efficient SQL queries, and using Python to build and evaluate predictive models.
+                        </p>
+                        <p class="text-slate-300 text-lg mb-8 leading-relaxed">
+                            I thrive on providing actionable insights that help teams make data-driven decisions. My goal is to bridge the gap between complex data and clear business strategy.
+                        </p>
+                        
+                        <!-- Key Skills -->
+                        <h4 class="text-xl font-semibold text-white mb-5">Core Competencies</h4>
+                        <div class="flex flex-wrap gap-3">
+                            <span class="skill-badge" data-aos="fade-up" data-aos-delay="300"><i data-lucide="bar-chart-3" class="w-4 h-4 mr-2"></i>Power BI</span>
+                            <span class="skill-badge" data-aos="fade-up" data-aos-delay="350"><i data-lucide="database" class="w-4 h-4 mr-2"></i>SQL</span>
+                            <span class="skill-badge" data-aos="fade-up" data-aos-delay="400"><i data-lucide="code" class="w-4 h-4 mr-2"></i>Python</span>
+                            <span class="skill-badge" data-aos="fade-up" data-aos-delay="450"><i data-lucide="brain-circuit" class="w-4 h-4 mr-2"></i>Machine Learning</span>
+                            <span class="skill-badge" data-aos="fade-up" data-aos-delay="500"><i data-lucide="presentation" class="w-4 h-4 mr-2"></i>Data Storytelling</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <div class="container mx-auto px-6">
+                <h2 class="section-header" data-aos="fade-up">Featured Projects</h2>
+                <p class="section-subheader" data-aos="fade-up" data-aos-delay="100">
+                    A selection of my work, demonstrating my skills in analysis and visualization.
+                </p>
+                
+                <!-- Project Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+                    <!-- Project 1 -->
+                    <div class="project-card glass-card overflow-hidden flex flex-col" data-aos="fade-up" data-aos-delay="200">
+                        <div class="p-6 md:p-8 flex-grow">
+                            <i data-lucide="globe-2" class="w-10 h-10 text-sky-400 mb-4"></i>
+                            <h3 class="text-xl font-bold text-white mb-3">Global Supply Chain Dashboard</h3>
+                            <p class="text-slate-400 mb-5 text-sm leading-relaxed">
+                                A dynamic dashboard to track KPIs like Forecast Accuracy (MAPE) and Capacity Utilization.
+                            </p>
+                            
+                            <h5 class="text-sm font-semibold text-sky-300 mb-2">Core Results:</h5>
+                            <p class="text-slate-300 text-sm mb-5">Identified key demand-supply gaps and regional inefficiencies, informing better inventory management.</p>
+                            
+                            <h5 class="text-sm font-semibold text-sky-300 mb-3">Tech Stack:</h5>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="skill-badge-sm">Power BI</span>
+                                <span class="skill-badge-sm">DAX</span>
+                                <span class="skill-badge-sm">Data Modeling</span>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0 mt-auto flex justify-end space-x-4">
+                            <a href="#" class="text-slate-400 hover:text-sky-500 transition duration-300" title="GitHub Repository">
+                                <i data-lucide="github" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="text-slate-400 hover:text-sky-500 transition duration-300" title="Live Demo">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Project 2 -->
+                    <div class="project-card glass-card overflow-hidden flex flex-col" data-aos="fade-up" data-aos-delay="300">
+                        <div class="p-6 md:p-8 flex-grow">
+                            <i data-lucide="user-x" class="w-10 h-10 text-sky-400 mb-4"></i>
+                            <h3 class="text-xl font-bold text-white mb-3">Telecom Churn Analysis</h3>
+                            <p class="text-slate-400 mb-5 text-sm leading-relaxed">
+                                Analyzed 7K+ customer records to identify key drivers of churn.
+                            </p>
+                            
+                            <h5 class="text-sm font-semibold text-sky-300 mb-2">Core Results:</h5>
+                            <p class="text-slate-300 text-sm mb-5">Found that month-to-month, fiber optic customers with no support churned at a >50% rate.</p>
+
+                            <h5 class="text-sm font-semibold text-sky-300 mb-3">Tech Stack:</h5>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="skill-badge-sm">SQL</span>
+                                <span class="skill-badge-sm">Power BI</span>
+                                <span class="skill-badge-sm">DAX</span>
+                                <span class="skill-badge-sm">Data Visualization</span>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0 mt-auto flex justify-end space-x-4">
+                            <a href="#" class="text-slate-400 hover:text-sky-500 transition duration-300" title="GitHub Repository">
+                                <i data-lucide="github" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="text-slate-400 hover:text-sky-500 transition duration-300" title="Live Demo">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="project-card glass-card overflow-hidden flex flex-col" data-aos="fade-up" data-aos-delay="400">
+                        <div class="p-6 md:p-8 flex-grow">
+                            <i data-lucide="users" class="w-10 h-10 text-sky-400 mb-4"></i>
+                            <h3 class="text-xl font-bold text-white mb-3">Customer Segmentation</h3>
+                            <p class="text-slate-400 mb-5 text-sm leading-relaxed">
+                                Built an ML model for customer segmentation using RFM analysis.
+                            </p>
+                            
+                            <h5 class="text-sm font-semibold text-sky-300 mb-2">Core Results:</h5>
+                            <p class="text-slate-300 text-sm mb-5">Enabled the marketing team to create highly targeted campaigns, improving engagement metrics.</p>
+                            
+                            <h5 class="text-sm font-semibold text-sky-300 mb-3">Tech Stack:</h5>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="skill-badge-sm">Python</span>
+                                <span class="skill-badge-sm">Pandas</span>
+                                <span class="skill-badge-sm">Scikit-learn</span>
+                                <span class="skill-badge-sm">ML</span>
+                            </div>
+                        </div>
+                        <div class="p-6 pt-0 mt-auto flex justify-end space-x-4">
+                            <a href="#" class="text-slate-400 hover:text-sky-500 transition duration-300" title="GitHub Repository">
+                                <i data-lucide="github" class="w-5 h-5"></i>
+                            </a>
+                            <a href="#" class="text-slate-400 hover:text-sky-500 transition duration-300" title="Live Demo">
+                                <i data-lucide="external-link" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Project Generator Button -->
+                <div class="text-center" data-aos="fade-up" data-aos-delay="500">
+                    <button id="openGeminiModalBtn" class="bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-600 hover:to-cyan-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 shadow-lg shadow-sky-500/30 flex items-center gap-2 mx-auto">
+                        <i data-lucide="wand-2" class="w-5 h-5"></i>
+                        ✨ Generate AI Project Idea
                     </button>
                 </div>
-                <!-- Mobile Menu Button (optional, not implemented) -->
             </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="section bg-slate-900/40">
+            <div class="container mx-auto px-6">
+                <h2 class="section-header" data-aos="fade-up">Testimonials</h2>
+                <p class="section-subheader" data-aos="fade-up" data-aos-delay="100">
+                    What my colleagues and managers say about my work.
+                </p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Testimonial 1 -->
+                    <div class="testimonial-card glass-card p-8" data-aos="fade-up" data-aos-delay="200">
+                        <i data-lucide="quote" class="w-10 h-10 text-sky-500 opacity-50 mb-4"></i>
+                        <p class="text-slate-300 mb-6 italic">"Sudhamsha's ability to dive into complex data and surface critical insights is second to none. His Power BI dashboards were a game-changer for our team's performance tracking."</p>
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/48x48/64748b/e2e8f0?text=JD" alt="Testimonial author" class="w-12 h-12 rounded-full mr-4 border-2 border-sky-600">
+                            <div>
+                                <h4 class="font-bold text-white">Jane Doe</h4>
+                                <p class="text-sm text-slate-400">Senior Operations Manager, Guvi</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial 2 -->
+                    <div class="testimonial-card glass-card p-8" data-aos="fade-up" data-aos-delay="300">
+                        <i data-lucide="quote" class="w-10 h-10 text-sky-500 opacity-50 mb-4"></i>
+                        <p class="text-slate-300 mb-6 italic">"He has a keen eye for detail and a structured approach to problem-solving. Sudhamsha's analysis on student retention directly led to a 20% increase in our key retention metrics."</p>
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/48x48/64748b/e2e8f0?text=RS" alt="Testimonial author" class="w-12 h-12 rounded-full mr-4 border-2 border-sky-600">
+                            <div>
+                                <h4 class="font-bold text-white">Ravi Sharma</h4>
+                                <p class="text-sm text-slate-400">Customer Success Head, Codingal</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Testimonial 3 -->
+                    <div class="testimonial-card glass-card p-8" data-aos="fade-up" data-aos-delay="400">
+                        <i data-lucide="quote" class="w-10 h-10 text-sky-500 opacity-50 mb-4"></i>
+                        <p class="text-slate-300 mb-6 italic">"A highly motivated and collaborative team member. Sudhamsha's work in optimizing our tutor scheduling system was impressive, reducing no-shows from 60% to just 2%."</p>
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/48x48/64748b/e2e8f0?text=AK" alt="Testimonial author" class="w-12 h-12 rounded-full mr-4 border-2 border-sky-600">
+                            <div>
+                                <h4 class="font-bold text-white">Anil Kumar</h4>
+                                <p class="text-sm text-slate-400">Operations Lead, Turito</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container mx-auto px-6">
+                <h2 class="section-header" data-aos="fade-up">Get In Touch</h2>
+                <p class="section-subheader" data-aos="fade-up" data-aos-delay="100">
+                    I'm open to discussing new opportunities and projects.
+                </p>
+                
+                <!-- AI Interview Prep Button -->
+                <div class="text-center mb-10" data-aos="fade-up" data-aos-delay="150">
+                    <button id="openRandomQuestionModalBtn" class="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 shadow-lg shadow-indigo-500/30 flex items-center gap-2 mx-auto">
+                        <i data-lucide="user-check" class="w-5 h-5"></i>
+                        ✨ Get a Random Interview Question
+                    </button>
+                </div>
+
+                <div class="glass-card max-w-4xl mx-auto p-8 md:p-12" data-aos="fade-up" data-aos-delay="200">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Contact Info -->
+                        <div class="space-y-6">
+                            <h3 class="text-2xl font-bold text-white mb-4">Contact Information</h3>
+                            <div class="flex items-center gap-4">
+                                <i data-lucide="mail" class="w-6 h-6 text-sky-400 shrink-0"></i>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-white">Email</h4>
+                                    <a href="mailto:sudhamshasagar@gmail.com" class="text-slate-300 hover:text-sky-400 transition-colors">sudhamshasagar@gmail.com</a>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <i data-lucide="phone" class="w-6 h-6 text-sky-400 shrink-0"></i>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-white">Phone</h4>
+                                    <a href="tel:+917975073574" class="text-slate-300 hover:text-sky-400 transition-colors">+91 7975073574</a>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <i data-lucide="map-pin" class="w-6 h-6 text-sky-400 shrink-0"></i>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-white">Location</h4>
+                                    <p class="text-slate-300">Bengaluru, India</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contact Form -->
+                        <form id="contactForm" class="space-y-5">
+                            <h3 class="text-2xl font-bold text-white mb-4">Send Me a Message</h3>
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-slate-300 mb-2">Name</label>
+                                <input type="text" id="name" name="name" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-slate-300 mb-2">Email</label>
+                                <input type="email" id="email" name="email" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all" required>
+                            </div>
+                            <div>
+                                <label for="intent" class="block text-sm font-medium text-slate-300 mb-2">My Intent (e.g., "Job opportunity", "Project collaboration")</label>
+                                <input type="text" id="intent" name="intent" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all">
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-slate-300 mb-2">Message</label>
+                                <textarea id="message" name="message" rows="4" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all" required></textarea>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <button type="submit" class="flex-1 bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-lg shadow-sky-500/30">
+                                    Send Message
+                                </button>
+                                <button type="button" id="draftWithAIBtn" class="flex-1 bg-slate-700 hover:bg-slate-600 text-sky-300 font-bold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center gap-2">
+                                    <i data-lucide="wand-2" class="w-5 h-5"></i>
+                                    <span id="aiButtonText">Draft with AI</span>
+                                    <div id="aiButtonLoader" class="w-5 h-5 border-2 border-t-sky-300 border-slate-500 rounded-full animate-spin-fast hidden"></div>
+                                </button>
+                            </div>
+                            <p id="formStatus" class="text-center text-sm mt-4"></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900/60 py-8">
+        <div class="container mx-auto px-6 text-center text-slate-400">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="https://www.linkedin.com/in/sudhamsha-sagar/" target="_blank" class="text-slate-400 hover:text-sky-500 transition duration-300">
+                    <i data-lucide="linkedin" class="w-6 h-6"></i>
+                </a>
+                <a href="https://github.com/sudhamshasagar" target="_blank" class="text-slate-400 hover:text-sky-500 transition duration-300">
+                    <i data-lucide="github" class="w-6 h-6"></i>
+                </a>
+                <!-- User: Add your Kaggle link in the href="#" -->
+                <a href="https://www.kaggle.com/sudhamshasagar" target="_blank" 
+                   class="text-slate-400 hover:text-sky-500 transition duration-300" 
+                   aria-label="Kaggle">
+                  <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" 
+                       fill="currentColor" class="w-6 h-6">
+                    <title>Kaggle</title>
+                    <path d="M16.193 13.447l7.44 10.553h-4.65l-5.778-8.204v8.204H8.402V0h4.803v11.5l5.777-7.5h4.762z"/>
+                  </svg>
+                </a>
+                
+                <a href="https://wa.me/917975073574" target="_blank" 
+                   class="text-slate-400 hover:text-green-500 transition duration-300" 
+                   aria-label="WhatsApp">
+                  <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" 
+                       fill="currentColor" class="w-6 h-6">
+                    <title>WhatsApp</title>
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52s-.67-.165-.917-.223c-.247-.057-.52-.057-.767-.057s-.71.104-1.07.497c-.36.393-1.366 1.331-1.366 3.246 0 1.915 1.39 3.768 1.564 4.015.173.247 2.71 4.136 6.572 5.79.913.39 1.636.626 2.199.8.694.213 1.316.188 1.817.113.571-.085 1.758-.715 2.006-1.413.248-.698.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898s2.898 4.347 2.898 6.988c0 5.45-4.436 9.884-9.889 9.884"/>
+                  </svg>
+                </a>
+            </div>
+            <p>&copy; 2025 Sudhamsha Sagar. All rights reserved.</p>
         </div>
-    </nav>
+    </footer>
 
-
-    <!-- Main Scrollable Content -->
-    <div class="relative min-h-screen p-4 md:p-8">
-        <div class="max-w-4xl mx-auto space-y-24 md:space-y-32">
-
-            <!-- Hero Section -->
-            <section class="min-h-[80vh] flex flex-col justify-center pt-24 pb-12">
-                <p class="text-lg text-primary mb-4 font-medium">Hi, my name is</p>
-                <h1 class="text-5xl md:text-7xl font-bold text-light-text dark:text-white mb-4">
-                    Sudhamsha Sagar.
-                </h1>
-                <h2 class="text-4xl md:text-6xl font-bold text-light-subtle dark:text-dark-subtle mb-8">
-                    I build insights from data.
-                </h2>
-                <p class="max-w-xl text-lg text-light-text dark:text-dark-text mb-6">
-                    I'm a Data Analyst specializing in Power BI, SQL, and Python. I turn complex datasets into clear, actionable insights and dynamic dashboards.
-                </p>
-                <p class="max-w-xl text-lg text-primary-dark dark:text-primary-light italic font-medium mb-10">
-                    "Your company’s growth equation just found its missing variable — me"
-                </p>
+    <!-- Back to Top Button -->
+    <a href="#home" id="scrollTopBtn" class="shadow-lg">
+        <i data-lucide="arrow-up" class="w-5 h-5"></i>
+    </a>
+    
+    <!-- Gemini Project Generator Modal -->
+    <div id="geminiModal" class="gemini-modal items-center justify-center">
+        <div id="geminiModalContent" class="gemini-modal-content glass-card p-6 md:p-8 rounded-2xl shadow-2xl relative">
+            <!-- Close Button -->
+            <button id="closeGeminiModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            
+            <h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                <i data-lucide="wand-2" class="w-6 h-6 text-sky-400"></i>
+                AI Project Idea Generator
+            </h3>
+            <p class="text-slate-300 mb-6">
+                Enter a dataset type and a key metric to generate a new data analysis project idea.
+            </p>
+            
+            <!-- Input Fields -->
+            <div class="space-y-4 mb-6">
                 <div>
-                    <a href="#projects" class="px-6 py-3 border-2 border-primary text-primary font-medium rounded-md hover:bg-primary/10 transition-colors duration-300">
-                        Check out my work!
-                    </a>
+                    <label for="datasetType" class="block text-sm font-medium text-slate-300 mb-2">Dataset Type (e.g., "E-commerce Sales", "Healthcare")</label>
+                    <input type="text" id="datasetType" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all" value="E-commerce Sales">
                 </div>
-            </section>
+                <div>
+                    <label for="keyMetric" class="block text-sm font-medium text-slate-300 mb-2">Key Metric (e.g., "Customer Churn", "Conversion Rate")</label>
+                    <input type="text" id="keyMetric" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all" value="Customer Churn">
+                </div>
+            </div>
 
-            <!-- About Me Section -->
-            <section id="about" class="reveal-section data-section cursor-pointer">
-                <h2 class="text-3xl font-bold text-light-text dark:text-white mb-6 flex items-center">
-                    <span class="text-primary text-2xl font-medium mr-3">01.</span> About Me
-                </h2>
-                <div class="space-y-4 text-lg text-light-text dark:text-dark-text" id="about-me-text">
-                    <p>
-                        Results-oriented Data Operations Analyst with 3 years of experience in IT and EdTech sectors, specializing in data-driven decision making and visualization.
-                    </p>
-                    <p>
-                        I'm skilled in creating dynamic Power BI dashboards, conducting in-depth analytics using SQL and Python, and providing actionable insights to cross-functional teams. Proficient in data storytelling, dashboard design, and collaborating with stakeholders to meet deadlines.
-                    </p>
-                    <p>Here are a few technologies I've been working with recently:</p>
-                </div>
-                <ul class="grid grid-cols-2 gap-2 mt-6 max-w-md text-light-subtle dark:text-dark-subtle">
-                    <li class="flex items-center"><span class="text-primary mr-2">›</span>Python</li>
-                    <li class="flex items-center"><span class="text-primary mr-2">›</span>SQL</li>
-                    <li class="flex items-center"><span class="text-primary mr-2">›</span>Power BI</li>
-                    <!-- <li class="flex items-center"><span class="text-primary mr-2">›</span>Tableau</li> -->
-                    <li class="flex items-center"><span class="text-primary mr-2">›</span>Excel</li>
-                    <li class="flex items-center"><span class="text-primary mr-2">›</span>Machine Learning</li>
-                </ul>
-            </section>
+            <!-- Generate Button -->
+            <button id="generateProjectBtn" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-lg shadow-sky-500/30 flex items-center justify-center gap-2">
+                <i data-lucide="brain-circuit" class="w-5 h-5"></i>
+                Generate Project
+            </button>
 
-            <!-- Experience Section -->
-            <section id="experience" class="reveal-section data-section cursor-pointer">
-                <h2 class="text-3xl font-bold text-light-text dark:text-white mb-6 flex items-center">
-                    <span class="text-primary text-2xl font-medium mr-3">02.</span> Experience
-                </h2>
-                <div class="space-y-8">
-                    <!-- Job 1 -->
-                    <div class="group p-6 rounded-md bg-light-card/50 dark:bg-dark-card/50 hover:shadow-xl transition-shadow duration-300">
-                        <h3 class="text-xl font-semibold text-light-text dark:text-white">Candidate Success Executive</h3>
-                        <p class="text-primary-dark dark:text-primary-light mb-2">Guvi Geeks Pvt Ltd (Dec '23 - Mar '25)</p>
-                        <ul class="list-disc list-inside text-light-text dark:text-dark-text mt-2 space-y-1">
-                            <li>Created and maintained interactive Power BI dashboards for operational and learner analytics.</li>
-                            <li>Used Excel (VLOOKUP, Pivot Tables, Forecasting) for ad-hoc reporting and trend analysis.</li>
-                            <li>Orchestrated cross-functional teams to gather data requirements, enhancing data accuracy by 15% using Python & Tableau.</li>
-                        </ul>
-                    </div>
-                    <!-- Job 2 -->
-                    <div class="group p-6 rounded-md bg-light-card/50 dark:bg-dark-card/50 hover:shadow-xl transition-shadow duration-300">
-                        <h3 class="text-xl font-semibold text-light-text dark:text-white">Customer Success Associate</h3>
-                        <p class="text-primary-dark dark:text-primary-light mb-2">Codingal (May '23 - Aug '23)</p>
-                        <ul class="list-disc list-inside text-light-text dark:text-dark-text mt-2 space-y-1">
-                            <li>Attained a record-high 90% Class Completion Percentage (CCP).</li>
-                            <li>Managed student engagement data with CRM & tracking tools, increasing student retention by 20%.</li>
-                        </ul>
-                    </div>
-                    <!-- Job 3 -->
-                    <div class="group p-6 rounded-md bg-light-card/50 dark:bg-dark-card/50 hover:shadow-xl transition-shadow duration-300">
-                        <h3 class="text-xl font-semibold text-light-text dark:text-white">Operations Executive</h3>
-                        <p class="text-primary-dark dark:text-primary-light mb-2">Turito India Pvt Ltd (May '22 - Feb '23)</p>
-                        <ul class="list-disc list-inside text-light-text dark:text-dark-text mt-2 space-y-1">
-                            <li>Reduced tutor no-show rates from over 60% to just 2% in one month.</li>
-                            <li>Designed data models in Excel to forecast inventory needs with 95% accuracy.</li>
-                        </ul>
-                    </div>
+            <!-- Results Area -->
+            <div id="geminiResult" class="mt-6">
+                <!-- Loader -->
+                <div id="geminiLoader" class="text-center py-4 hidden">
+                    <div class="w-8 h-8 border-4 border-t-sky-500 border-slate-700 rounded-full animate-spin mx-auto"></div>
+                    <p class="text-slate-400 mt-2 text-sm">Generating idea...</p>
                 </div>
-            </section>
+                <!-- Content -->
+                <div id="geminiResultContent">
+                    <!-- Generated content will be injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
 
-            <!-- Education Section -->
-            <section id="education" class="reveal-section data-section cursor-pointer">
-                <h2 class="text-3xl font-bold text-light-text dark:text-white mb-6 flex items-center">
-                    <span class="text-primary text-2xl font-medium mr-3">03.</span> Education
-                </h2>
-                <div class="relative pl-6 border-l-2 border-primary-dark dark:border-primary-light space-y-12">
-                    <!-- Item 1 -->
-                    <div class="timeline-item relative pl-8">
-                        <p class="text-primary-dark dark:text-primary-light text-sm font-medium mb-1">Feb '24 - Feb '25</p>
-                        <h3 class="text-xl font-semibold text-light-text dark:text-white">Post Graduation Certification in Data Science</h3>
-                        <p class="text-light-subtle dark:text-dark-subtle">IIIT Bangalore & upGrad</p>
-                    </div>
-                    <!-- Item 2 -->
-                    <div class="timeline-item relative pl-8">
-                        <p class="text-primary-dark dark:text-primary-light text-sm font-medium mb-1">Jun '18 - Jun '21</p>
-                        <h3 class="text-xl font-semibold text-light-text dark:text-white">B. Sc. in Computer Science</h3>
-                        <p class="text-light-subtle dark:text-dark-subtle">University of Mangalore</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Projects Section -->
-            <section id="projects" class="reveal-section data-section cursor-pointer">
-                <h2 class="text-3xl font-bold text-light-text dark:text-white mb-6 flex items-center">
-                    <span class="text-primary text-2xl font-medium mr-3">04.</span> Key Projects
-                </h2>
-                <div class="space-y-8">
-                    <!-- Project 1 -->
-                    <div class="p-6 rounded-md bg-light-card/50 dark:bg-dark-card/50 hover:shadow-xl transition-shadow duration-300" 
-                         data-project-description="Project: Global Supply Chain Analytics Dashboard. Tech: Power BI, DAX. Description: Designed advanced DAX measures for KPIs like Forecast Accuracy (MAPE), Inventory Turnover, and Capacity Utilization. Created dynamic visualizations (trend lines, maps, heatmaps, Sankey diagrams) to uncover demand-supply gaps. Integrated slicers for cross-filtering and scenario analysis.">
-                        <h3 class="text-xl font-semibold text-light-text dark:text-white">Global Supply Chain Analytics Dashboard</h3>
-                        <p class="text-primary-dark dark:text-primary-light text-sm mb-2">Power BI, DAX</p>
-                        <ul class="list-disc list-inside text-light-text dark:text-dark-text mt-2 space-y-1">
-                            <li>Designed advanced DAX measures for KPIs like Forecast Accuracy (MAPE), Inventory Turnover, and Capacity Utilization.</li>
-                            <li>Created dynamic visualizations (trend lines, maps, heatmaps, Sankey diagrams) to uncover demand-supply gaps.</li>
-                            <li>Integrated slicers for cross-filtering and scenario analysis.</li>
-                        </ul>
-                        <button class="analyze-impact-btn mt-4 px-4 py-2 border border-primary text-primary text-sm font-medium rounded-md hover:bg-primary/10 transition-colors duration-300">
-                            ✨ Analyze Impact
-                        </button>
-                    </div>
-                    <!-- Project 2 -->
-                    <div class="p-6 rounded-md bg-light-card/50 dark:bg-dark-card/50 hover:shadow-xl transition-shadow duration-300"
-                         data-project-description="Project: Telecom Churn Analysis. Tech: SQL, Power BI, DAX, Data Visualization. Description: Queried and cleaned 7K+ records of telecom customer data using SQL. Performed customer churn analysis by contract, demographics, and service usage. Found customers on month-to-month + fiber optic + no support churned at >50%.">
-                        <h3 class="text-xl font-semibold text-light-text dark:text-white">Telecom Churn Analysis</h3>
-                        <p class="text-primary-dark dark:text-primary-light text-sm mb-2">SQL, Power BI, DAX, Data Visualization</p>
-                        <ul class="list-disc list-inside text-light-text dark:text-dark-text mt-2 space-y-1">
-                            <li>Queried and cleaned 7K+ records of telecom customer data using SQL.</li>
-                            <li>Performed customer churn analysis by contract, demographics, and service usage.</li>
-                            <li>Found customers on month-to-month + fiber optic + no support churned at >50%.</li>
-                        </ul>
-                        <button class="analyze-impact-btn mt-4 px-4 py-2 border border-primary text-primary text-sm font-medium rounded-md hover:bg-primary/10 transition-colors duration-300">
-                            ✨ Analyze Impact
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Gemini Recruiter Tools Section -->
-            <section id="recruiter-tools" class="reveal-section data-section cursor-pointer text-center">
-                <h2 class="text-3xl font-bold text-light-text dark:text-white mb-4 flex items-center justify-center">
-                    <span class="text-primary text-2xl font-medium mr-3">05.</span> Recruiter Tools
-                </h2>
-                <p class="text-lg text-light-text dark:text-dark-text max-w-lg mx-auto mb-8">
-                    Hiring for a data role? Let's break the ice. Click the button below to generate a unique interview question based on my profile.
-                </p>
-                <button id="generate-question-btn" class="px-6 py-3 border-2 border-primary text-primary font-medium rounded-md hover:bg-primary/10 transition-colors duration-300">
-                    ✨ Generate Interview Question
-                </button>
-                <div id="question-result" class="mt-8 text-left max-w-lg mx-auto p-6 rounded-md bg-light-card/50 dark:bg-dark-card/50 min-h-[50px] flex items-center justify-center">
-                    <!-- Question will be injected here -->
-                    <span class="text-light-subtle dark:text-dark-subtle italic">Interview question will be shown here...</span>
-                </div>
-            </section>
+    <!-- Gemini Interview Prep Modal -->
+    <div id="randomQuestionModal" class="gemini-modal items-center justify-center">
+        <div id="randomQuestionModalContent" class="gemini-modal-content glass-card p-6 md:p-8 rounded-2xl shadow-2xl relative">
+            <!-- Close Button -->
+            <button id="closeRandomQuestionModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
             
-            <!-- Contact Section -->
-            <section id="contact" class="reveal-section data-section cursor-pointer text-center pb-24">
-                <h2 class="text-3xl font-bold text-light-text dark:text-white mb-4 flex items-center justify-center">
-                    <span class="text-primary text-2xl font-medium mr-3">06.</span> Get In Touch
-                </h2>
-                <p class="text-lg text-light-text dark:text-dark-text max-w-lg mx-auto mb-8">
-                    My inbox is always open. Whether you have a question or just want to say hi, I'll get back to you!
-                </p>
-                <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
-                    <a href="mailto:sudhamshasagar@gmail.com" class="px-6 py-3 border-2 border-primary text-primary font-medium rounded-md hover:bg-primary/10 transition-colors duration-300">
-                        Say Hello (Email)
-                    </a>
-                    <!-- Social Links -->
-                    <div class="flex items-center space-x-6">
-                        <a href="https://wa.me/917975073574" target="_blank" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300 flex items-center" title="WhatsApp">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 12c0 1.76.46 3.42 1.29 4.86L2 22l5.26-1.42c1.37.79 2.94 1.21 4.58 1.21h.01c5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2m.01 1.64c4.56 0 8.27 3.71 8.27 8.27 0 4.56-3.71 8.27-8.27 8.27h-.01c-1.48 0-2.9-.39-4.14-1.11l-.3-.18-3.07.83.84-3.01-.2-.31C3.8 15.01 3.4 13.54 3.4 12c0-4.56 3.71-8.27 8.27-8.27M8.03 7.02c-.12-.26-.26-.27-.39-.27-.11 0-.24 0-.36.01-.12.01-.3.06-.46.3s-.6.58-.6.58c0 .87.21 1.71.6 2.51.39.8.81 1.48 1.32 2.06.51.58 1.15 1.15 1.84 1.62l.18.12c.76.5 1.43.74 2.19.95.76.21 1.48.16 2.08-.05.6-.21 1.02-.45 1.44-1.29.42-.84.42-1.55 0-1.55s-.09-.08-.18-.13c-.09-.05-.21-.08-.45-.18-.24-.1-.56-.25-1.11-.51-.55-.26-1.02-.41-1.17-.41-.15 0-.3.03-.42.18-.12.15-.41.51-.51.61s-.2.15-.36.08c-.16-.07-.69-.25-1.32-.82-.63-.57-1.04-1.27-1.14-1.48s-.1-.33-.01-.46c.09-.13.2-.21.3-.29s.15-.12.21-.08c.07.03.15-.02.26.03.11.05.7.33.8.38.1.05.18.08.26.08.08 0 .15-.02.21-.13.06-.11.06-.6 0-1.09-.06-.49-.12-.93-.18-1.02s-.1-.13-.21-.13c-.11 0-.24.03-.36.08Z"/></svg>
-                        </a>
-                        <a href="https://www.linkedin.com/in/your-linkedin-url" target="_blank" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300 flex items-center" title="LinkedIn">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.784-1.75-1.75s.784-1.75 1.75-1.75 1.75.784 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd"/></svg>
-                        </a>
-                        <a href="https://github.com/your-github-url" target="_blank" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300 flex items-center" title="GitHub">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" clip-rule="evenodd"/></svg>
-                        </a>
-                        <a href="https://www.kaggle.com/your-username" target="_blank" class="text-light-subtle dark:text-dark-subtle hover:text-primary transition-colors duration-300 flex items-center" title="Kaggle">
-                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.062 1.48C12.002 1.48 11.942 1.489 11.882 1.498L5.783 2.812C5.674 2.836 5.624 2.945 5.647 3.054L8.272 14.868L2.529 20.61C2.433 20.706 2.433 20.858 2.529 20.954L3.046 21.47C3.142 21.567 3.294 21.567 3.39 21.47L9.132 15.728L11.59 22.425C11.621 22.522 11.725 22.587 11.83 22.578C11.886 22.573 11.94 22.56 11.989 22.536L21.379 17.103C21.475 17.043 21.52 16.93 21.488 16.82L15.111 2.373C15.068 2.253 14.95 2.162 14.82 2.14L12.222 1.507C12.167 1.493 12.115 1.48 12.062 1.48ZM14.111 4.204L19.29 15.862L12.35 19.82L9.842 6.096L14.111 4.204Z"/></svg>
-                        </a>
+            <h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                <i data-lucide="user-check" class="w-6 h-6 text-purple-400"></i>
+                AI Interview Question
+            </h3>
+            <p class="text-slate-300 mb-6">
+                Click the button to generate a random interview question tailored to my data analyst profile.
+            </p>
+
+            <!-- Generate Button -->
+            <button id="generateRandomQuestionBtn" class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-lg shadow-indigo-500/30 flex items-center justify-center gap-2">
+                <i data-lucide="brain-circuit" class="w-5 h-5"></i>
+                Generate Question
+            </button>
+
+            <!-- Results Area -->
+            <div id="randomQuestionResult" class="mt-6">
+                <!-- Loader -->
+                <div id="randomQuestionLoader" class="text-center py-4 hidden">
+                    <div class="w-8 h-8 border-4 border-t-indigo-500 border-slate-700 rounded-full animate-spin mx-auto"></div>
+                    <p class="text-slate-400 mt-2 text-sm">Generating question...</p>
+                </div>
+                <!-- Content -->
+                <div id="randomQuestionResultContent" class="hidden">
+                    <!-- Card for the question -->
+                    <div class="glass-card border-l-4 border-purple-400 p-6">
+                        <i data-lucide="mic" class="w-6 h-6 text-purple-400 mb-4"></i>
+                        <p id="questionText" class="text-white text-lg"></p>
                     </div>
                 </div>
-            </section>
-
-        </div>
-    </div>
-
-    <!-- API Modal -->
-    <div id="api-modal-overlay">
-        <div id="api-modal-content" class="bg-light-card dark:bg-dark-card text-light-text dark:text-dark-text">
-            <div id="api-modal-header" class="border-light-subtle/20 dark:border-dark-subtle/20">
-                <h3 id="api-modal-title" class="text-xl font-semibold text-light-text dark:text-white"></h3>
-                <button id="api-modal-close" class="text-light-subtle dark:text-dark-subtle hover:text-primary dark:hover:text-primary transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            <div id="api-modal-body" class="flex justify-center items-center min-h-[200px]">
-                <!-- Content will be injected here -->
             </div>
         </div>
     </div>
 
-    <script type="module">
-        // --- 0. Gemini API Configuration ---
-        const apiKey = ""; // Keep this empty, it will be populated by the environment
-        const apiModel = "gemini-2.5-flash-preview-09-2025";
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${apiModel}:generateContent?key=${apiKey}`;
 
-        /**
-         * A simple sleep helper
-         */
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
+    <!-- JS Libraries -->
+    <!-- Typed.js for typing animation -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <!-- AOS for scroll animations -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
 
-        /**
-         * Fetches with exponential backoff
-         * @param {string} url - The API endpoint
-         * @param {object} options - Fetch options (method, headers, body)
-         * @param {number} maxRetries - Maximum number of retries
-         * @returns {Promise<object>} - The JSON response
-         */
-        async function fetchWithBackoff(url, options, maxRetries = 5) {
-            let attempt = 0;
-            let delay = 1000; // Start with 1 second
+            // --- Initialize AOS ---
+            AOS.init({
+                duration: 800,
+                once: true,
+                offset: 50,
+            });
 
-            while (attempt < maxRetries) {
-                try {
-                    const response = await fetch(url, options);
+            // --- Lucide Icons ---
+            lucide.createIcons();
 
-                    if (response.ok) {
-                        return await response.json();
-                    }
-
-                    if (response.status === 429 || response.status >= 500) {
-                        // Throttling or server error, wait and retry
-                        // console.warn(`API request failed with status ${response.status}. Retrying in ${delay}ms...`);
-                        await sleep(delay);
-                        delay *= 2; // Exponential backoff
-                        attempt++;
-                    } else {
-                        // Other client-side error (e.g., 400), don't retry
-                        // console.error(`API request failed with status ${response.status}.`);
-                        throw new Error(`API Error: ${response.status} ${response.statusText}`);
-                    }
-                } catch (error) {
-                    if (attempt + 1 >= maxRetries) {
-                        // console.error("Max retries reached. Fetch failed.", error);
-                        throw error;
-                    }
-                    // console.warn(`Fetch error: ${error.message}. Retrying in ${delay}ms...`);
-                    await sleep(delay);
-                    delay *= 2;
-                    attempt++;
-                }
-            }
-            throw new Error("API request failed after maximum retries.");
-        }
-
-        /**
-         * Calls the Gemini API
-         * @param {string} systemPrompt - The system instruction
-         * @param {string} userPrompt - The user's prompt text
-         * @returns {Promise<string>} - The generated text content
-         */
-        async function callGeminiAPI(systemPrompt, userPrompt) {
-            const payload = {
-                contents: [{ parts: [{ text: userPrompt }] }],
-                systemInstruction: {
-                    parts: [{ text: systemPrompt }]
-                },
-            };
-
-            const options = {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            };
-
-            try {
-                const result = await fetchWithBackoff(apiUrl, options);
-                if (result.candidates && result.candidates.length > 0) {
-                    return result.candidates[0].content.parts[0].text;
+            // --- Header Scroll Effect ---
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('bg-slate-900/80', 'backdrop-blur-lg', 'shadow-lg');
                 } else {
-                    // console.error("No candidates returned from API.", result);
-                    return "Sorry, I couldn't generate a response. The API returned no content.";
-                }
-            } catch (error) {
-                // console.error("Error calling Gemini API:", error);
-                return "An error occurred while contacting the AI. Please try again later.";
-            }
-        }
-
-
-        // --- 1. Custom Cursor Logic ---
-        const cursor = document.getElementById('custom-cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-        
-        // Add hover effect for links and buttons
-        document.querySelectorAll('a, button, .data-section').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-        });
-
-
-        // --- 2. Funny Quote Popup Logic ---
-       const quotes = [
-        "Hmm... looks like an outlier just got clicked!",
-        "Data cleaning in progress... mentally.",
-        "Missing values? Not again!",
-        "Ah yes, multicollinearity — every analyst’s favorite nightmare.",
-        "That click wasn’t statistically significant.",
-        "Feature engineering level: Jedi.",
-        "My p-value just fainted.",
-        "Careful... overfitting detected!",
-        "Somewhere, a data scientist just added another column.",
-        "That click has been normalized and standardized.",
-        "Data visualization or data illusion?",
-        "Another click, another NaN.",
-        "Correlation ≠ Causation — but thanks for trying!",
-        "Model accuracy dropped faster than my coffee level.",
-        "Let’s pivot... literally.",
-        "I swear it worked in the training set!",
-        "This dataset needs therapy, not preprocessing.",
-        "When in doubt, add more data.",
-        "404: Insight not found.",
-        "Click registered. Confidence interval updated."
-      ];
-
-        const popup = document.getElementById('quote-popup');
-        let popupTimer;
-
-        document.addEventListener('click', (e) => {
-            // Check if the click is on an interactive element
-            if (e.target.closest('a, button, #api-modal-content, nav')) {
-                return; // Don't show popup for links, buttons, modal, or nav
-            }
-                
-            if (popupTimer) clearTimeout(popupTimer);
-            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-            popup.textContent = randomQuote;
-            
-            // Position popup near cursor
-            let x = e.clientX + 15;
-            let y = e.clientY - 15;
-            
-            // Prevent going off-screen
-            if (x + popup.offsetWidth + 20 > window.innerWidth) {
-                x = e.clientX - popup.offsetWidth - 15;
-            }
-            if (y < 20) {
-                y = e.clientY + 30;
-            }
-            
-            popup.style.left = x + 'px';
-            popup.style.top = y + 'px';
-            
-            popup.style.display = 'block';
-            void popup.offsetWidth; 
-            popup.style.opacity = '1';
-            popup.style.transform = 'translateY(0)';
-
-            popupTimer = setTimeout(() => {
-                popup.style.opacity = '0';
-                popup.style.transform = 'translateY(10px)';
-                setTimeout(() => { popup.style.display = 'none'; }, 300); 
-            }, 2500);
-        });
-
-        // --- 3. Light/Dark Mode Toggle Logic ---
-        const themeToggleBtn = document.getElementById('theme-toggle');
-        const darkIcon = document.getElementById('theme-icon-dark');
-        const lightIcon = document.getElementById('theme-icon-light');
-        let isDarkMode = false; // Will be set by updateTheme
-
-        function updateTheme(isDark) {
-            isDarkMode = isDark; // Store current state
-            if (isDark) {
-                document.documentElement.classList.add('dark');
-                document.body.classList.add('dark');
-                document.body.classList.remove('light');
-                lightIcon.classList.remove('hidden');
-                darkIcon.classList.add('hidden');
-            } else {
-                document.documentElement.classList.remove('dark');
-                document.body.classList.remove('dark');
-                document.body.classList.add('light');
-                lightIcon.classList.add('hidden');
-                darkIcon.classList.remove('hidden');
-            }
-        }
-
-        let initialIsDarkMode = localStorage.theme === 'dark' || 
-                         (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
-
-        updateTheme(initialIsDarkMode);
-
-        themeToggleBtn.addEventListener('click', (e) => {
-            // e.stopPropagation(); // No longer needed, handled by document listener
-            let newIsDarkMode = !isDarkMode; // Get the new state
-            localStorage.theme = newIsDarkMode ? 'dark' : 'light';
-            updateTheme(newIsDarkMode);
-        });
-        
-        // --- 4. Scroll Reveal Animation Logic ---
-        const sections = document.querySelectorAll('.reveal-section');
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    // Optional: stop observing after it's visible
-                    // observer.unobserve(entry.target); 
+                    header.classList.remove('bg-slate-900/80', 'backdrop-blur-lg', 'shadow-lg');
                 }
             });
-        }, {
-            threshold: 0.1 // Trigger when 10% of the element is visible
-        });
-        
-        sections.forEach(section => {
-            observer.observe(section);
-        });
 
-        // --- 5. API Modal Logic ---
-        const modalOverlay = document.getElementById('api-modal-overlay');
-        const modalTitle = document.getElementById('api-modal-title');
-        const modalBody = document.getElementById('api-modal-body');
-        const modalCloseBtn = document.getElementById('api-modal-close');
-
-        function getLoaderHTML() {
-            const color = isDarkMode ? '#06b6d4' : '#0891b2'; // primary accent
-            return `<div class="loader" style="border-color: ${color}; border-bottom-color: transparent;"></div>`;
-        }
-
-        function openModal(title, content) {
-            modalTitle.textContent = title;
-            modalBody.innerHTML = content;
-            modalOverlay.classList.add('visible');
-        }
-
-        function closeModal() {
-            modalOverlay.classList.remove('visible');
-        }
-
-        modalCloseBtn.addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', (e) => {
-            if (e.target === modalOverlay) {
-                closeModal();
-            }
-        });
-
-        // --- 6. Project Impact Button Listeners ---
-        const projectAnalyzeButtons = document.querySelectorAll('.analyze-impact-btn');
-        projectAnalyzeButtons.forEach(button => {
-            button.addEventListener('click', async (e) => {
-                // e.stopPropagation(); // No longer needed
-                const projectDescription = button.parentElement.dataset.projectDescription;
-                
-                openModal("✨ Analyzing Project Impact...", getLoaderHTML());
-
-                const systemPrompt = "You are a data science hiring manager. Given the following project summary, provide a concise, one-paragraph analysis of its potential business impact and the key technical skills demonstrated. Speak in a professional, encouraging tone.";
-                
-                const aiResponse = await callGeminiAPI(systemPrompt, projectDescription);
-                
-                // Update modal with response
-                openModal("✨ Project Impact Analysis", aiResponse.replace(/\n/g, '<br>'));
+            // --- Mobile Menu Toggle ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
             });
-        });
+            // Close menu when a link is clicked
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
 
-        // --- 7. Recruiter Tool Button Listener ---
-        const generateQuestionBtn = document.getElementById('generate-question-btn');
-        const questionResultDiv = document.getElementById('question-result');
-        const aboutMeText = document.getElementById('about-me-text').textContent;
-
-        generateQuestionBtn.addEventListener('click', async (e) => {
-            // e.stopPropagation(); // No longer needed
+            // --- Typed.js Role Animation ---
+            new Typed('#typed-role', {
+                strings: ['Data Analyst', 'Power BI Developer', 'Data Storyteller', 'SQL Specialist'],
+                typeSpeed: 70,
+                backSpeed: 50,
+                backDelay: 2000,
+                loop: true,
+            });
             
-            questionResultDiv.innerHTML = getLoaderHTML();
-            generateQuestionBtn.disabled = true;
-
-            const systemPrompt = "You are a senior technical recruiter hiring for a Data Analyst/ML Engineer role. Given the candidate's 'About Me' summary, generate one insightful, open-ended technical or behavioral interview question to ask them. The question should be directly relevant to the skills mentioned.";
+            // --- Custom Cursor ---
+            const cursorDot = document.querySelector('.custom-cursor-dot');
+            const cursorOutline = document.querySelector('.custom-cursor-outline');
             
-            const aiResponse = await callGeminiAPI(systemPrompt, aboutMeText);
+            window.addEventListener('mousemove', (e) => {
+                cursorDot.style.left = e.clientX + 'px';
+                cursorDot.style.top = e.clientY + 'px';
+                cursorOutline.style.left = e.clientX + 'px';
+                cursorOutline.style.top = e.clientY + 'px';
+            });
 
-            // Display the response
-            questionResultDiv.innerHTML = `<p class="italic text-light-text dark:text-dark-text">${aiResponse}</p>`;
-            generateQuestionBtn.disabled = false;
+            document.querySelectorAll('a, button, [data-aos]').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    cursorOutline.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                    cursorOutline.style.opacity = '1';
+                });
+                el.addEventListener('mouseleave', () => {
+                    cursorOutline.style.transform = 'translate(-50%, -50%) scale(1)';
+                    cursorOutline.style.opacity = '0.7';
+                });
+            });
+
+            // --- Back to Top Button ---
+            const scrollTopBtn = document.getElementById('scrollTopBtn');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    scrollTopBtn.classList.add('show');
+                } else {
+                    scrollTopBtn.classList.remove('show');
+                }
+            });
+
+            // --- AI Image Generation (About Me) ---
+            async function generateAboutImage() {
+                const loader = document.getElementById('image-loader');
+                const imageEl = document.getElementById('about-image');
+                const imageContainer = document.getElementById('about-image-container');
+
+                if (!loader || !imageEl || !imageContainer) return;
+
+                const prompt = "Abstract digital art, flowing data streams, analytical graphs, neural network nodes, professional, sophisticated, dark blue, purple, and teal colors, representing data insight.";
+                const payload = {
+                    instances: { prompt: prompt },
+                    parameters: { "sampleCount": 1 }
+                };
+                const apiKey = ""; // API key will be provided by the environment
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
+
+                let retries = 3;
+                let delay = 1000;
+
+                while (retries > 0) {
+                    try {
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                        const result = await response.json();
+                        if (result.predictions && result.predictions[0]?.bytesBase64Encoded) {
+                            const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
+                            imageEl.src = imageUrl;
+                            imageEl.onload = () => {
+                                loader.classList.add('hidden');
+                                imageEl.classList.remove('opacity-0');
+                            };
+                            return; // Success
+                        } else {
+                            throw new Error("Invalid image response");
+                        }
+                    } catch (error) {
+                        retries--;
+                        if (retries === 0) {
+                            // Failed after retries, show a fallback
+                            loader.innerHTML = `<i data-lucide="image-off" class="w-12 h-12 text-slate-500 mx-auto"></i><p class="text-slate-500 mt-2 text-sm">AI image failed to load.</p>`;
+                            lucide.createIcons(); // Re-render icon
+                        } else {
+                            await new Promise(res => setTimeout(res, delay));
+                            delay *= 2; // Exponential backoff
+                        }
+                    }
+                }
+            }
+            
+            // Generate the image when the page loads
+            generateAboutImage();
+
+            // --- Gemini Project Generator Modal Logic ---
+            const geminiModal = document.getElementById('geminiModal');
+            const openModalBtn = document.getElementById('openGeminiModalBtn');
+            const closeModalBtn = document.getElementById('closeGeminiModalBtn');
+            const generateProjectBtn = document.getElementById('generateProjectBtn');
+            const geminiLoader = document.getElementById('geminiLoader');
+            const geminiResultContent = document.getElementById('geminiResultContent');
+            const datasetTypeInput = document.getElementById('datasetType');
+            const keyMetricInput = document.getElementById('keyMetric');
+
+            if (openModalBtn) {
+                openModalBtn.addEventListener('click', () => {
+                    geminiModal.classList.add('show');
+                });
+            }
+
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', () => {
+                    geminiModal.classList.remove('show');
+                });
+            }
+
+            // Close modal on outside click
+            if (geminiModal) {
+                geminiModal.addEventListener('click', (e) => {
+                    if (e.target === geminiModal) {
+                        geminiModal.classList.remove('show');
+                    }
+                });
+            }
+
+            if (generateProjectBtn) {
+                generateProjectBtn.addEventListener('click', async () => {
+                    const datasetType = datasetTypeInput.value || "E-commerce Sales";
+                    const keyMetric = keyMetricInput.value || "Customer Churn";
+
+                    geminiLoader.classList.remove('hidden');
+                    geminiResultContent.innerHTML = ''; // Clear previous results
+                    generateProjectBtn.disabled = true;
+
+                    const systemPrompt = "You are a senior data science manager. Generate a concise, practical data analysis project idea based on a dataset type and a key metric. The project should be suitable for a portfolio. Provide the response as a JSON object with keys: `projectTitle`, `projectSummary`, `analysisSteps` (an array of strings), and `suggestedTechStack` (an array of strings).";
+                    const userQuery = `Dataset Type: ${datasetType}\nKey Metric: ${keyMetric}`;
+
+                    const payload = {
+                        contents: [{ parts: [{ text: userQuery }] }],
+                        systemInstruction: {
+                            parts: [{ text: systemPrompt }]
+                        },
+                        generationConfig: {
+                            responseMimeType: "application/json",
+                            responseSchema: {
+                                type: "OBJECT",
+                                properties: {
+                                    "projectTitle": { "type": "STRING" },
+                                    "projectSummary": { "type": "STRING" },
+                                    "analysisSteps": { "type": "ARRAY", "items": { "type": "STRING" } },
+                                    "suggestedTechStack": { "type": "ARRAY", "items": { "type": "STRING" } }
+                                }
+                            }
+                        }
+                    };
+                    const apiKey = ""; // API key will be provided by the environment
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+                    
+                    let retries = 3;
+                    let delay = 1000;
+
+                    while (retries > 0) {
+                        try {
+                            const response = await fetch(apiUrl, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(payload)
+                            });
+
+                            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                            const result = await response.json();
+                            if (result.candidates && result.candidates[0].content?.parts?.[0]?.text) {
+                                const jsonText = result.candidates[0].content.parts[0].text;
+                                const data = JSON.parse(jsonText);
+                                displayGeneratedProject(data);
+                                geminiLoader.classList.add('hidden');
+                                generateProjectBtn.disabled = false;
+                                return; // Success
+                            } else {
+                                throw new Error("Invalid response from Gemini API");
+                            }
+                        } catch (error) {
+                            retries--;
+                            if (retries === 0) {
+                                geminiLoader.classList.add('hidden');
+                                geminiResultContent.innerHTML = `<p class="text-red-400 text-sm">Failed to generate project idea. Please try again later.</p>`;
+                                generateProjectBtn.disabled = false;
+                            } else {
+                                await new Promise(res => setTimeout(res, delay));
+                                delay *= 2; // Exponential backoff
+                            }
+                        }
+                    }
+                });
+            }
+            
+            function displayGeneratedProject(data) {
+                const stepsHtml = data.analysisSteps.map(step => `<li class="flex items-start gap-2"><i data-lucide="check-square" class="w-4 h-4 text-sky-400 shrink-0 mt-1"></i><span>${step}</span></li>`).join('');
+                const techHtml = data.suggestedTechStack.map(tech => `<span class="skill-badge-sm">${tech}</span>`).join('');
+
+                geminiResultContent.innerHTML = `
+                    <div class="border-t border-slate-700 pt-4 space-y-4">
+                        <h4 class="text-xl font-bold text-white">${data.projectTitle}</h4>
+                        <p class="text-slate-300 text-sm">${data.projectSummary}</p>
+                        <div>
+                            <h5 class="text-md font-semibold text-sky-300 mb-2">Analysis Steps:</h5>
+                            <ul class="text-slate-300 text-sm space-y-2">
+                                ${stepsHtml}
+                            </ul>
+                        </div>
+                        <div>
+                            <h5 class="text-md font-semibold text-sky-300 mb-2">Tech Stack:</h5>
+                            <div class="flex flex-wrap gap-2">
+                                ${techHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                lucide.createIcons(); // Re-render icons
+                
+                // Re-apply skill badge styles
+                const badgeSmStyles = 'inline-flex items-center bg-sky-900/50 text-sky-300 text-xs font-medium px-2.5 py-0.5 rounded-full border border-sky-800/50';
+                geminiResultContent.querySelectorAll('.skill-badge-sm').forEach(badge => {
+                    badge.setAttribute('class', `${badge.getAttribute('class')} ${badgeSmStyles}`);
+                });
+            }
+
+            // --- Gemini Interview Prep Modal Logic ---
+            const interviewModal = document.getElementById('randomQuestionModal');
+            const openInterviewModalBtn = document.getElementById('openRandomQuestionModalBtn');
+            const closeInterviewModalBtn = document.getElementById('closeRandomQuestionModalBtn');
+            const generateInterviewBtn = document.getElementById('generateRandomQuestionBtn');
+            const interviewLoader = document.getElementById('randomQuestionLoader');
+            const interviewResultContent = document.getElementById('randomQuestionResultContent');
+            const questionTextEl = document.getElementById('questionText');
+
+            if (openInterviewModalBtn) {
+                openInterviewModalBtn.addEventListener('click', () => {
+                    interviewModal.classList.add('show');
+                });
+            }
+
+            if (closeInterviewModalBtn) {
+                closeInterviewModalBtn.addEventListener('click', () => {
+                    interviewModal.classList.remove('show');
+                });
+            }
+
+            // Close modal on outside click
+            if (interviewModal) {
+                interviewModal.addEventListener('click', (e) => {
+                    if (e.target === interviewModal) {
+                        interviewModal.classList.remove('show');
+                    }
+                });
+            }
+
+            if (generateInterviewBtn) {
+                generateInterviewBtn.addEventListener('click', async () => {
+                    interviewLoader.classList.remove('hidden');
+                    interviewResultContent.classList.add('hidden'); // Hide old question
+                    generateInterviewBtn.disabled = true;
+
+                    // This context is built from your portfolio content
+                    const portfolioContext = `
+                        **Summary:** 3 years as a Data Operations Analyst in IT/EdTech.
+                        **Skills:** Power BI, Tableau, Excel, SQL, Python, Machine Learning (Regression, Decision Trees, Random Forest), Matplotlib, Seaborn, DAX.
+                        **Projects:**
+                        1. **Global Supply Chain Dashboard:** Used Power BI and DAX to visualize KPIs like Forecast Accuracy (MAPE) and Capacity Utilization.
+                        2. **Telecom Churn Analysis:** Used SQL and Power BI/DAX to analyze 7K+ customer records and found a >50% churn rate in a specific segment.
+                        3. **Customer Segmentation:** Used Python and Machine Learning (RFM analysis) for targeted marketing.
+                    `;
+
+                    const systemPrompt = "You are an expert technical recruiter and data science hiring manager. Your task is to generate ONE insightful interview question based on a candidate's portfolio. The question can be technical, project-based, or behavioral. Provide only the question as plain text.";
+                    
+                    const userQuery = `Generate one random, insightful interview question for a data analyst candidate with the following profile: \n\n${portfolioContext}`;
+                    
+                    const payload = {
+                        contents: [{ parts: [{ text: userQuery }] }],
+                        systemInstruction: {
+                            parts: [{ text: systemPrompt }]
+                        },
+                    };
+
+                    const apiKey = ""; // API key will be provided by the environment
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+                    let retries = 3;
+                    let delay = 1000;
+
+                    while (retries > 0) {
+                        try {
+                            const response = await fetch(apiUrl, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(payload)
+                            });
+
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+
+                            const result = await response.json();
+
+                            if (result.candidates && result.candidates[0].content?.parts?.[0]?.text) {
+                                const questionText = result.candidates[0].content.parts[0].text;
+                                
+                                // Display the question
+                                if(questionTextEl) {
+                                    questionTextEl.textContent = questionText;
+                                }
+                                interviewResultContent.classList.remove('hidden');
+                                interviewLoader.classList.add('hidden');
+                                generateInterviewBtn.disabled = false;
+                                return; // Success
+                            } else {
+                                throw new Error("Invalid response structure from Gemini API.");
+                            }
+
+                        } catch (error) {
+                            // Don't log retry errors to console
+                            retries--;
+                            if (retries === 0) {
+                                interviewLoader.classList.add('hidden');
+                                if(questionTextEl) {
+                                    questionTextEl.textContent = 'Failed to generate question. Please try again.';
+                                }
+                                interviewResultContent.classList.remove('hidden');
+                                generateInterviewBtn.disabled = false;
+                            } else {
+                                await new Promise(res => setTimeout(res, delay));
+                                delay *= 2; // Exponential backoff
+                            }
+                        }
+                    }
+                });
+            }
+
+            // --- Contact Form AI Draft ---
+            const draftBtn = document.getElementById('draftWithAIBtn');
+            const intentInput = document.getElementById('intent');
+            const messageInput = document.getElementById('message');
+            const nameInput = document.getElementById('name');
+            const aiButtonText = document.getElementById('aiButtonText');
+            const aiButtonLoader = document.getElementById('aiButtonLoader');
+
+            if (draftBtn) {
+                draftBtn.addEventListener('click', async () => {
+                    const intent = intentInput.value || "A quick question";
+                    const name = nameInput.value || "Visitor";
+
+                    aiButtonText.classList.add('hidden');
+                    aiButtonLoader.classList.remove('hidden');
+                    draftBtn.disabled = true;
+
+                    const systemPrompt = "You are a helpful assistant. Write a professional, polite, and concise contact message (around 50 words) from a visitor to Sudhamsha (a Data Analyst). The message should be based on the visitor's name and their stated 'intent'. Start the message with 'Hi Sudhamsha,' and sign off with the visitor's name. Provide only the message as plain text.";
+                    const userQuery = `My Name: ${name}\nMy Intent: ${intent}`;
+
+                    const payload = {
+                        contents: [{ parts: [{ text: userQuery }] }],
+                        systemInstruction: {
+                            parts: [{ text: systemPrompt }]
+                        },
+                    };
+                    const apiKey = ""; // API key will be provided by the environment
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+                    let retries = 3;
+                    let delay = 1000;
+
+                    while (retries > 0) {
+                        try {
+                            const response = await fetch(apiUrl, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(payload)
+                            });
+
+                            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                            
+                            const result = await response.json();
+                            if (result.candidates && result.candidates[0].content?.parts?.[0]?.text) {
+                                const message = result.candidates[0].content.parts[0].text;
+                                messageInput.value = message;
+                                // Auto-resize textarea
+                                messageInput.style.height = 'auto';
+                                messageInput.style.height = (messageInput.scrollHeight) + 'px';
+                                break; // Success
+                            } else {
+                                throw new Error("Invalid response from Gemini API");
+                            }
+                        } catch (error) {
+                            retries--;
+                            if (retries === 0) {
+                                messageInput.value = "AI draft failed. Please write your message manually.";
+                            } else {
+                                await new Promise(res => setTimeout(res, delay));
+                                delay *= 2;
+                            }
+                        } finally {
+                            aiButtonText.classList.remove('hidden');
+                            aiButtonLoader.classList.add('hidden');
+                            draftBtn.disabled = false;
+                        }
+                    }
+                });
+            }
+
+            // --- Contact Form Submission (Mock) ---
+            const contactForm = document.getElementById('contactForm');
+            const formStatus = document.getElementById('formStatus');
+
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    formStatus.textContent = 'Sending...';
+                    formStatus.classList.remove('text-red-400');
+                    formStatus.classList.add('text-green-400');
+
+                    // Simulate form submission
+                    setTimeout(() => {
+                        formStatus.textContent = 'Message sent successfully! Thank you.';
+                        contactForm.reset();
+                        // Reset textarea height
+                        messageInput.style.height = 'auto'; 
+                    }, 1500);
+                });
+            }
+
         });
-
     </script>
+
 </body>
 </html>
+
 
