@@ -535,12 +535,12 @@
                 </div>
 
                 <!-- AI Project Generator Button -->
-                <div class="text-center" data-aos="fade-up" data-aos-delay="500">
+                <!-- <div class="text-center" data-aos="fade-up" data-aos-delay="500">
                     <button id="openGeminiModalBtn" class="bg-gradient-to-r from-sky-500 to-cyan-500 hover:from-sky-600 hover:to-cyan-600 text-white font-bold py-3 px-8 rounded-full transition duration-300 shadow-lg shadow-sky-500/30 flex items-center gap-2 mx-auto">
                         <i data-lucide="wand-2" class="w-5 h-5"></i>
                         ✨ Generate AI Project Idea
                     </button>
-                </div>
+                </div> -->
             </div>
         </section>
 
@@ -735,97 +735,6 @@
     <a href="#home" id="scrollTopBtn" class="shadow-lg">
         <i data-lucide="arrow-up" class="w-5 h-5"></i>
     </a>
-    
-    <!-- Gemini Project Generator Modal -->
-    <div id="geminiModal" class="gemini-modal items-center justify-center">
-        <div id="geminiModalContent" class="gemini-modal-content glass-card p-6 md:p-8 rounded-2xl shadow-2xl relative">
-            <!-- Close Button -->
-            <button id="closeGeminiModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
-            
-            <h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                <i data-lucide="wand-2" class="w-6 h-6 text-sky-400"></i>
-                AI Project Idea Generator
-            </h3>
-            <p class="text-slate-300 mb-6">
-                Enter a dataset type and a key metric to generate a new data analysis project idea.
-            </p>
-            
-            <!-- Input Fields -->
-            <div class="space-y-4 mb-6">
-                <div>
-                    <label for="datasetType" class="block text-sm font-medium text-slate-300 mb-2">Dataset Type (e.g., "E-commerce Sales", "Healthcare")</label>
-                    <input type="text" id="datasetType" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all" value="E-commerce Sales">
-                </div>
-                <div>
-                    <label for="keyMetric" class="block text-sm font-medium text-slate-300 mb-2">Key Metric (e.g., "Customer Churn", "Conversion Rate")</label>
-                    <input type="text" id="keyMetric" class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all" value="Customer Churn">
-                </div>
-            </div>
-
-            <!-- Generate Button -->
-            <button id="generateProjectBtn" class="w-full bg-sky-500 hover:bg-sky-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-lg shadow-sky-500/30 flex items-center justify-center gap-2">
-                <i data-lucide="brain-circuit" class="w-5 h-5"></i>
-                Generate Project
-            </button>
-
-            <!-- Results Area -->
-            <div id="geminiResult" class="mt-6">
-                <!-- Loader -->
-                <div id="geminiLoader" class="text-center py-4 hidden">
-                    <div class="w-8 h-8 border-4 border-t-sky-500 border-slate-700 rounded-full animate-spin mx-auto"></div>
-                    <p class="text-slate-400 mt-2 text-sm">Generating idea...</p>
-                </div>
-                <!-- Content -->
-                <div id="geminiResultContent">
-                    <!-- Generated content will be injected here -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Gemini Interview Prep Modal -->
-    <div id="randomQuestionModal" class="gemini-modal items-center justify-center">
-        <div id="randomQuestionModalContent" class="gemini-modal-content glass-card p-6 md:p-8 rounded-2xl shadow-2xl relative">
-            <!-- Close Button -->
-            <button id="closeRandomQuestionModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
-            
-            <h3 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                <i data-lucide="user-check" class="w-6 h-6 text-purple-400"></i>
-                AI Interview Question
-            </h3>
-            <p class="text-slate-300 mb-6">
-                Click the button to generate a random interview question tailored to my data analyst profile.
-            </p>
-
-            <!-- Generate Button -->
-            <button id="generateRandomQuestionBtn" class="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 shadow-lg shadow-indigo-500/30 flex items-center justify-center gap-2">
-                <i data-lucide="brain-circuit" class="w-5 h-5"></i>
-                Generate Question
-            </button>
-
-            <!-- Results Area -->
-            <div id="randomQuestionResult" class="mt-6">
-                <!-- Loader -->
-                <div id="randomQuestionLoader" class="text-center py-4 hidden">
-                    <div class="w-8 h-8 border-4 border-t-indigo-500 border-slate-700 rounded-full animate-spin mx-auto"></div>
-                    <p class="text-slate-400 mt-2 text-sm">Generating question...</p>
-                </div>
-                <!-- Content -->
-                <div id="randomQuestionResultContent" class="hidden">
-                    <!-- Card for the question -->
-                    <div class="glass-card border-l-4 border-purple-400 p-6">
-                        <i data-lucide="mic" class="w-6 h-6 text-purple-400 mb-4"></i>
-                        <p id="questionText" class="text-white text-lg"></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <!-- JS Libraries -->
     <!-- Typed.js for typing animation -->
@@ -910,64 +819,6 @@
                     scrollTopBtn.classList.remove('show');
                 }
             });
-
-            // --- AI Image Generation (About Me) ---
-            async function generateAboutImage() {
-                const loader = document.getElementById('image-loader');
-                const imageEl = document.getElementById('about-image');
-                const imageContainer = document.getElementById('about-image-container');
-
-                if (!loader || !imageEl || !imageContainer) return;
-
-                const prompt = "Abstract digital art, flowing data streams, analytical graphs, neural network nodes, professional, sophisticated, dark blue, purple, and teal colors, representing data insight.";
-                const payload = {
-                    instances: { prompt: prompt },
-                    parameters: { "sampleCount": 1 }
-                };
-                const apiKey = ""; // API key will be provided by the environment
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
-
-                let retries = 3;
-                let delay = 1000;
-
-                while (retries > 0) {
-                    try {
-                        const response = await fetch(apiUrl, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
-
-                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-
-                        const result = await response.json();
-                        if (result.predictions && result.predictions[0]?.bytesBase64Encoded) {
-                            const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
-                            imageEl.src = imageUrl;
-                            imageEl.onload = () => {
-                                loader.classList.add('hidden');
-                                imageEl.classList.remove('opacity-0');
-                            };
-                            return; // Success
-                        } else {
-                            throw new Error("Invalid image response");
-                        }
-                    } catch (error) {
-                        retries--;
-                        if (retries === 0) {
-                            // Failed after retries, show a fallback
-                            loader.innerHTML = `<i data-lucide="image-off" class="w-12 h-12 text-slate-500 mx-auto"></i><p class="text-slate-500 mt-2 text-sm">AI image failed to load.</p>`;
-                            lucide.createIcons(); // Re-render icon
-                        } else {
-                            await new Promise(res => setTimeout(res, delay));
-                            delay *= 2; // Exponential backoff
-                        }
-                    }
-                }
-            }
-            
-            // Generate the image when the page loads
-            generateAboutImage();
 
             // --- Gemini Project Generator Modal Logic ---
             const geminiModal = document.getElementById('geminiModal');
